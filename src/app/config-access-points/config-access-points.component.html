@@ -1,0 +1,149 @@
+
+    <div class="wrapper">
+        <div class="header">
+            <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+           <div class="logo">
+              CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
+            </div> 
+            <ul class="header-right">      
+              <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+                <div class="logout"><a routerLink="/logout">Logout</a></div>
+              </li>
+            </ul>
+          </div>
+  <!--<nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>       
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" >
+        <ul class="nav navbar-nav">  
+            <li>
+                <a routerLink="/dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
+            </li>                          
+            <li class="active"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">              
+                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
+                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a routerLink="/callibrate">Configuration</a></li>
+                      <li><a routerLink="/display">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a routerLink="/configuration">Configuration</a></li>
+                        <li><a routerLink="/tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+            </li> 
+          <li *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li *ngIf='showAdmin==true'><a routerLink="/roles">Roles</a></li>
+              <li *ngIf='showAdmin==true'><a routerLink="/users">Users</a></li>
+              <li *ngIf='showAccounts==true && showAdmin==true'><a routerLink="/super">Tenants</a></li>
+            </ul>
+          </li>     
+        </ul>
+   
+        </div>
+      </div>
+    </nav>   -->
+    <div class="col-lg-12">
+                
+        <ul class="sideMenu">    
+            <li>              
+              <ul class="first-level"> 
+                 <li class="dropdown-submenu" style="padding-top:5px!important;">
+                      <a routerLink="/dashboard" tabindex="-1" href="#">
+                            <span class="glyphicon glyphicon-dashboard"></span><br>
+                            Dashboard </a>                        
+                 </li>                             
+              </ul>
+            </li>              
+            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">            
+              FEATURES  </a>
+                <ul class="first-level"> 
+                  <li class="dropdown-submenu" *ngIf='showLBS==true'>
+                    <a class="test active" tabindex="-1" href="#" >
+                      <span class="glyphicon glyphicon-map-marker"></span><br>
+                      Location </a>
+                    <ul class="dropdown-menu slide-menu" style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                      <li><a  routerLink="/callibrate" linkAttr="callibrate">Configuration</a></li>
+                      <li><a routerLink="/display" linkAttr="display">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">
+                    <span class="glyphicon glyphicon-phone"></span><br>
+                    Subs. Tracing</a>
+                    <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                      <li><a routerLink="/configuration" linkAttr="configuration">Configuration</a></li>
+                      <li><a routerLink="/tracing" linkAttr="tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+             
+            </li>
+          <li *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">          
+            ADMIN</a>
+            <ul class="first-level">
+              <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/roles" linkAttr="roles"><span class="glyphicon glyphicon-education"></span><br>Roles</a></li>
+              <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/users" linkAttr="users"><span class="glyphicon glyphicon-user"></span><br>Users</a></li>
+              <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a  routerLink="/super" linkAttr="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
+            </ul>
+          
+          </li>
+          </ul>                
+      
+      <div class="panel-group">
+                    <div class="panel panel-default">
+                      <div class="panel-body">              
+                        <h4>Configure Access Points</h4>
+                        <hr>
+<ul class="breadcrumb">
+    <li><a href="#">Step 1 <p style="line-height: 23px;"><small>Callibrate the floor plan</small></p></a></li>
+    <li><a href="#">Step 2 <p style="line-height: 23px;"><small>Place Access points </small></p></a></li>
+</ul>                
+
+<ul class="breadcrumb2">        
+    <li><a routerLink="/callibrate" style="margin-left:15px;padding-left: 20px;">Previous</a></li>
+    <li><a routerLink="/display"  (click)="saveMarkers()" style="margin-left:10px;padding-left: 20px;">Save and Exit</a></li>
+</ul> 
+
+<div style="clear:both;float:right;padding-left:20px;">  
+    <button (click)="addMarkers($event)" class="button-success pure-button" style="margin-right:10px;margin-bottom:20px;margin-top:10px;">Add Points</button> 
+    <button (click)="undoMarkers()" class="button-success pure-button" style="margin-right:10px;margin-bottom:20px;margin-top:10px;">Undo Point</button>
+    <button (click)="clearMarkers($event)" class="button-success pure-button" style="margin-right:10px;margin-bottom:20px;margin-top:10px;">Clear All </button>
+  </div>
+<div class="floorPlanCanvas dragscroll" style="color:#fff;clear:both;margin-top:20px;">
+   <canvas id="configAccessCanvas" height="500"></canvas>
+</div>
+<div style="clear:both;margin-top:10px;margin-bottom:15px;">
+    <br><br>
+    <p style="text-align:left;float:left;padding-left:10px;"><b>You have chosen the following access point locations.</b></p>
+    <ul style="width:400px;float:left;padding:0px;margin:0px;padding-left:10px;list-style-type:none;clear:both;">
+      <li  style="padding:10px;padding-left:0px;border-bottom:1px solid #333;"><b>X,Y</b></li>
+      <li *ngFor="let point of listPoints" style="padding:10px;padding-left:0px;border-bottom:1px solid #333;">
+         <div style="width:300px;float:left;"> {{point}}</div> <button class="close" (click)="deleteRow($event)" [attr.data-pointvalue]="point" style="float:left;">&nbsp;x&nbsp;</button>
+         <div style="clear:both;"></div>
+      </li>
+    </ul>
+</div>
+<div style="clear:both;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer>© 2005-2018  Ruckus Networks, an ARRIS Company. All rights reserved.</footer>

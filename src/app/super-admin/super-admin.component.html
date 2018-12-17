@@ -1,0 +1,366 @@
+<div class="wrapper">
+
+    <div class="header">
+        <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+        <div class="logo">
+          CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
+        </div> 
+        <ul class="header-right">      
+          <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+            <div class="logout"><a routerLink="/logout">Logout</a></div>
+          </li>
+        </ul>
+    </div>
+    <!--
+  <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>       
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" >
+        <ul class="nav navbar-nav">     
+            <li>
+                <a [routerLink]="checkLink ? '/dashboard' : null"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
+            </li>
+            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">              
+                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
+                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a [routerLink]="checkLink ? '/callibrate' : null" linkAttr="callibrate">Configuration</a></li>
+                      <li><a [routerLink]="checkLink ? '/display' : null" linkAttr="monitoring">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a [routerLink]="checkLink ? '/configuration' : null" linkAttr="configuration">Configuration</a></li>
+                        <li><a [routerLink]="checkLink ? '/tracing' : null"  linkAttr="tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+            </li> 
+          <li class="active" *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/roles' : null" linkAttr="roles">Roles</a></li>
+              <li *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/users' : null"  linkAttr="users">Users</a></li>
+              <li *ngIf='showAccounts==true && showAdmin==true'><a [routerLink]="checkLink ? '/super' : null" linkAttr="super">Tenants</a></li>
+            </ul>
+          </li>     
+        </ul>   
+        </div>
+      </div>
+    </nav>  -->
+
+
+  <div class="col-lg-12">
+       <ul class="sideMenu">    
+          <li>              
+            <ul class="first-level"> 
+               <li class="dropdown-submenu active" style="padding-top:5px!important;">
+                    <a [routerLink]="checkLink ? '/dashboard' : null" tabindex="-1" href="#">
+                          <span class="glyphicon glyphicon-dashboard"></span><br>
+                          Dashboard </a>                        
+               </li>                             
+            </ul>
+          </li>              
+          <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">            
+            FEATURES  </a>
+              <ul class="first-level"> 
+                <li class="dropdown-submenu" *ngIf='showLBS==true'>
+                  <a class="test" tabindex="-1" href="#" >
+                    <span class="glyphicon glyphicon-map-marker"></span><br>
+                    Location </a>
+                  <ul class="dropdown-menu slide-menu"   style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                    <li><a [routerLink]="checkLink ? '/callibrate' : null" data-link="callibrate">Configuration</a></li>
+                    <li><a [routerLink]="checkLink ? '/display' : null" data-link="display">Monitoring</a></li>
+                  </ul>
+                </li>     
+                <li class="dropdown-submenu" *ngIf='showST==true'>
+                  <a class="test" tabindex="-1" href="#">
+                  <span class="glyphicon glyphicon-phone"></span><br>
+                  Subs. Tracing</a>
+                  <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                    <li><a [routerLink]="checkLink ? '/configuration' : null" data-link="configuration">Configuration</a></li>
+                    <li><a [routerLink]="checkLink ? '/tracing' : null" data-link="tracing">Trace Results</a></li>                            
+                  </ul>
+                </li>          
+              </ul>
+           
+          </li>
+        <li *ngIf='showAdmin==true'>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">          
+          ADMIN</a>
+          <ul class="first-level">
+            <li class="dropdown-submenu" *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/roles' : null" data-link="roles"><span class="glyphicon glyphicon-education"></span><br>Roles</a></li>
+            <li class="dropdown-submenu" *ngIf='showAdmin==true'><a  [routerLink]="checkLink ? '/users' : null" data-link="users"><span class="glyphicon glyphicon-user"></span><br>Users</a></li>
+            <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a class="active" [routerLink]="checkLink ? '/super' : null" data-link="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
+          </ul>
+        
+        </li>
+        </ul>      
+      <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-body">              
+              <h4>Tenants</h4>
+              <hr>
+              <mat-form-field style="float:left!important;">
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+              </mat-form-field>  
+
+              <mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort style="clear:both!important;">
+                 
+                <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> #</mat-header-cell>
+                      <mat-cell *matCellDef="let element; let i= dataIndex;"> {{i+1}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="org">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Name</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                      <span *ngIf="element.id; else newOrg">{{element.org}}</span>
+                      <ng-template #newOrg>
+                          <input type="text" class="form-control" value="{{element.org}}"  [(ngModel)]="element.org">
+                      </ng-template>
+                  </mat-cell>
+                </ng-container>
+               
+                <ng-container matColumnDef="admin">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Admin</mat-header-cell>
+                  <mat-cell *matCellDef="let element;">
+                  <span *ngIf="element.id!=''"> {{element.admin}} </span>
+                  <input *ngIf="element.id==''" type="text" class="form-control" value="{{element.admin}}"  [(ngModel)]="element.admin">
+                </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="showGroups">                 
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Groups</mat-header-cell>
+                    <mat-cell *matCellDef="let element">                      
+                        <button *ngIf="element.showGroups && element.id!=''" class="btn btn-primary btnViewGrps" data-toggle="modal" data-target="#groupModal" (click)="viewGroups(element.id,ELEMENT_DATA.indexOf(element))" type="button">View</button>
+                        <button *ngIf="element.showGroups && element.id==''" class="btn btn-primary btn-info" data-toggle="modal" data-target="#newGroupModal"  (click)="viewNewGroups(ELEMENT_DATA.indexOf(element))" type="button">+</button>
+                        <p *ngIf="element.showGroups && element.id==''"><span *ngFor="let gr of grps[ELEMENT_DATA.indexOf(element)];"><br>{{gr}}</span></p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="isSuperUser">  
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let element">                      
+                        <button class="btn btn-warning" *ngIf="!element.beginEdits" value="Edit" (click)="editOrg($event,ELEMENT_DATA.indexOf(element))"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-warning" *ngIf="element.beginEdits" value="Save" (click)="saveOrg(element)"><i class="fa fa-save"></i></button>
+                        &nbsp;<button class="btn btn-danger" *ngIf="!element.beginEdits && !element.isSuperUser" value="Delete" (click)="deleteOrg($event,ELEMENT_DATA.indexOf(element))"><i class="fa fa fa-trash"></i></button>
+                        <button class="btn btn-danger" *ngIf="element.beginEdits" value="Cancel" (click)="cancelChanges($event,ELEMENT_DATA.indexOf(element))"><i class="fa fa-remove"></i></button>
+                    </mat-cell> 
+                </ng-container>
+
+                <ng-container matColumnDef="selectedOptions">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Features</mat-header-cell>
+                  <mat-cell *matCellDef="let element;">
+                    <span *ngIf="!element.beginEdits || element.isSuperUser">{{element.selectedOptions}}</span>
+                    <angular4-multiselect [data]="dropdownList"  [(ngModel)]="element.selectedItems" *ngIf="element.beginEdits && !element.isSuperUser"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event,ELEMENT_DATA.indexOf(element))" 
+                    (onDeSelect)="OnItemDeSelect($event,ELEMENT_DATA.indexOf(element))"
+                    (onSelectAll)="onSelectAll($event,ELEMENT_DATA.indexOf(element))"
+                    (onDeSelectAll)="onDeSelectAll($event,ELEMENT_DATA.indexOf(element))"></angular4-multiselect>
+                  </mat-cell>
+                </ng-container>
+              
+                <ng-container matColumnDef="beginEdits">
+                    <mat-header-cell *matHeaderCellDef  mat-sort-header>Reset</mat-header-cell>
+                    <mat-cell *matCellDef="let element; ">                    
+                    <button class="btn btn-success" value="Reset Password" (click)="resetPassword($event,element.admin)"><i class="fa fa-unlock"></i></button>
+                    </mat-cell>
+                </ng-container>
+                                           
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let element;  columns: displayedColumns;">
+                </mat-row>
+                
+              </mat-table>
+              <mat-paginator [length]=totalEntries [pageSize]=pageSize [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+                
+              <!--<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Account Name</th>
+      <th scope="col">Primary Administrator</th>
+      <th scope="col">Licensed Features</th>
+      <th scope="col">Groups</th>
+      <th scope="col">Reset Password</th>      
+      <th scope="col">Actions</th>          
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let org of allOrgs; let i = index; trackBy: customTrackBy" class="clickable-row">
+      <th scope="row" style="width:5%">{{i+1}}</th>
+      <td style="width:15%">
+        <span *ngIf="allOrgIds[i]; else newOrg">{{org}}</span>   
+        <ng-template #newOrg>
+            <input type="text" class="form-control" value="{{org}}"  [(ngModel)]="allOrgs[i]">
+        </ng-template>
+      </td>  
+      <td style="width:20%">        
+          <span *ngIf="!beginEdits[i] || users[i].length>0">{{allOrgAdmins[i]}}</span>          
+          <input *ngIf="beginEdits[i] && users[i].length==0" type="text" class="form-control" value="{{allOrgAdmins[i]}}"  [(ngModel)]="allOrgAdmins[i]">
+      </td>
+      <td style="width:30%">
+        <span *ngIf="!beginEdits[i] || superUserList[i]">{{selectedOptions[i]}}</span>
+        <angular4-multiselect [data]="dropdownList"  [(ngModel)]="selectedItems[i]" *ngIf="beginEdits[i] && !superUserList[i]"
+        [settings]="dropdownSettings"
+        (onSelect)="onItemSelect($event,i)" 
+        (onDeSelect)="OnItemDeSelect($event,i)"
+        (onSelectAll)="onSelectAll($event,i)"
+        (onDeSelectAll)="onDeSelectAll($event,i)"></angular4-multiselect>
+      </td>
+      <td style="width:10%">
+      <button *ngIf="showGroups[i] && allOrgIds[i]!=''" class="btn btn-primary btnViewGrps" data-toggle="modal" data-target="#groupModal" (click)="viewGroups(allOrgIds[i],i)" type="button">View</button>      
+      <button *ngIf="showGroups[i] && allOrgIds[i]==''" class="btn btn-primary btn-info" data-toggle="modal" data-target="#newGroupModal"  (click)="viewNewGroups(i)" type="button">+</button>      
+      <p *ngIf="showGroups[i] && allOrgIds[i]==''"><span *ngFor="let gr of grps[i];"><br>{{gr}}</span></p>  
+      </td>
+      <td style="width:10%">
+          <button class="btn btn-success" value="Reset Password" (click)="resetPassword($event,i)"><i class="fa fa-unlock"></i></button>
+      </td>
+      <td style="width:10%"> 
+        <button class="btn btn-warning" *ngIf="!beginEdits[i]" value="Edit" (click)="editOrg($event,i)"><i class="fa fa-edit"></i></button>
+        <button class="btn btn-warning" *ngIf="beginEdits[i]" value="Save" (click)="saveOrg(i)"><i class="fa fa-save"></i></button>
+        &nbsp;<button class="btn btn-danger" *ngIf="!beginEdits[i] && !superUserList[i]" value="Delete" (click)="deleteOrg($event,i)"><i class="fa fa fa-trash"></i></button>
+        <button class="btn btn-danger" *ngIf="beginEdits[i]" value="Cancel" (click)="cancelChanges($event,i)"><i class="fa fa-remove"></i></button>
+      </td>      
+    </tr>    
+  </tbody>
+</table>-->
+
+<button class="btn btn-primary" value="Create Account" (click)="addOrganization($event)">Create Accounts</button>
+</div>
+</div>          
+</div>
+</div>
+
+  <div id="groupModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">       
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Groups</h4>
+        </div>
+        <div class="modal-body">            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>            
+                    <th scope="col">Action</th>            
+                  </tr>
+                </thead>
+                <tbody id="grpsTbl">
+                  <tr *ngFor="let group of grps[currentIndex]; let i = index; trackBy: customTrackBy">
+                    <th scope="row" style="width:5%">{{i+1}}</th>
+                    <td style="width:20%">
+                    <span *ngIf="!beginGroupEdits[i]">{{group}}</span>
+                    <input *ngIf="beginGroupEdits[i]" class="form-control" [(ngModel)]="grps[currentIndex][i]">
+                    </td>                        
+                    <td style="width:15%">                       
+                      <button class="btn btn-warning" *ngIf="beginGroupEdits[i]" value="Save" (click)="saveGroupEntry(i)"><i class="fa fa-save"></i></button>
+                      &nbsp;<button class="btn btn-danger" *ngIf="!beginGroupEdits[i]" value="Delete" (click)="deleteGroupEntry($event,i)"><i class="fa fa fa-trash"></i></button>
+                      <button class="btn btn-danger" *ngIf="beginGroupEdits[i]" value="Cancel" (click)="cancelGroupEntryChanges($event,i)"><i class="fa fa-remove"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default btn-primary" (click)="addGroupEntry($event)">Add Entry</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="newGroupModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">       
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Groups</h4>
+        </div>
+        <div class="modal-body">            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>            
+                    <th scope="col">Action</th>            
+                  </tr>
+                </thead>
+                <tbody id="grpsTbl">
+                  <tr *ngFor="let group of grps[currentIndex]; let i = index; trackBy: customTrackBy">
+                    <th scope="row" style="width:5%">{{i+1}}</th>
+                    <td style="width:20%">                    
+                    <input class="form-control" [(ngModel)]="grps[currentIndex][i]">
+                    </td>                        
+                    <td style="width:15%">                       
+                      <button class="btn btn-danger" value="Cancel" (click)="deleteGroupEntry($event,i)"><i class="fa fa-remove"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default btn-primary" (click)="addGroupEntry($event)">Add Entry</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>© 2005-2018  Ruckus Networks, an ARRIS Company. All rights reserved.</footer>
+
+<div class="backdrop" [ngStyle]="{'display':displayBackDrop}"></div>
+
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+<div class="modal-dialog" role="document"> 
+  <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Confirm</h4>
+     </div>
+    <div class="modal-body">
+       <p>You have unsaved changes. Do you wish to continue without saving?</p>
+    </div>        
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default btn-success" (click)="continueWithoutSaving()">Continue without Saving</button>
+      <button type="button" class="btn btn-default btn-primary" (click)="saveChanges()">Save</button>
+      <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+    </div>
+   </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayError}">
+    <div class="modal-dialog" role="document"> 
+      <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" aria-label="Close" (click)="onCloseHandledError()"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title" *ngIf="!isOperationSuccess">Error</h4>
+           <h4 class="modal-title" *ngIf="isOperationSuccess">Success</h4>
+         </div>
+        <div class="modal-body">
+           <div class="alert alert-danger" *ngIf="!isOperationSuccess">{{errorMsg}}</div>
+           <div class="alert alert-success" *ngIf="isOperationSuccess">{{errorMsg}}</div>
+        </div>        
+        <div class="modal-footer">         
+          <button type="button" class="btn btn-default btn-primary" (click)="onCloseHandledError()">OK</button>
+        </div>
+       </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<ngx-spinner></ngx-spinner>

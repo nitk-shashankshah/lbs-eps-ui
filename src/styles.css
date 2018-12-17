@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import "https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+body
+{
+    margin:0px;
+    font-family: "Helvetica","sans-serif";        
+    background:url(assets/images/bg.jpg) no-repeat left center!important;
+    background-attachment: fixed!important;
+    background-size: cover;
+}

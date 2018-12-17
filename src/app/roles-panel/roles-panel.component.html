@@ -1,0 +1,245 @@
+<div class="wrapper">
+
+<div class="header">
+    <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+   <div class="logo">
+      CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
+    </div> 
+    <ul class="header-right">      
+      <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+        <div class="logout"><a routerLink="/logout">Logout</a></div>
+      </li>
+    </ul>
+  </div>
+    <!--
+  <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>       
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" >
+        <ul class="nav navbar-nav">
+            <li>
+                <a [routerLink]="checkLink ? '/dashboard' : null"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
+            </li>
+            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">              
+                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
+                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a [routerLink]="checkLink ? '/callibrate' : null" linkAttr="callibrate">Configuration</a></li>
+                      <li><a [routerLink]="checkLink ? '/display' : null" linkAttr="display">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a [routerLink]="checkLink ? '/configuration':null" linkAttr="configuration">Configuration</a></li>
+                        <li><a [routerLink]="checkLink ? '/tracing':null" linkAttr="tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+            </li> 
+          <li class="active" *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/roles':null" linkAttr="roles">Roles</a></li>
+              <li *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/users':null" linkAttr="users">Users</a></li>
+              <li *ngIf='showAccounts==true && showAdmin==true'><a [routerLink]="checkLink ? '/super':null" linkAttr="super">Tenants</a></li>
+            </ul>
+          </li>     
+        </ul>
+   
+        </div>
+      </div>
+    </nav>  -->
+
+      <div class="col-lg-12">            
+          <ul class="sideMenu">    
+              <li>              
+                <ul class="first-level"> 
+                   <li class="dropdown-submenu active" style="padding-top:5px!important;">
+                        <a [routerLink]="checkLink ? '/dashboard' : null" tabindex="-1" href="#">
+                              <span class="glyphicon glyphicon-dashboard"></span><br>
+                              Dashboard </a>                        
+                   </li>                             
+                </ul>
+              </li>              
+              <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">            
+                FEATURES  </a>
+                  <ul class="first-level"> 
+                    <li class="dropdown-submenu" *ngIf='showLBS==true'>
+                      <a class="test" tabindex="-1" href="#" >
+                        <span class="glyphicon glyphicon-map-marker"></span><br>
+                        Location </a>
+                      <ul class="dropdown-menu slide-menu"   style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                        <li><a [routerLink]="checkLink ? '/callibrate' : null" data-link="callibrate">Configuration</a></li>
+                        <li><a [routerLink]="checkLink ? '/display' : null" data-link="display">Monitoring</a></li>
+                      </ul>
+                    </li>     
+                    <li class="dropdown-submenu" *ngIf='showST==true'>
+                      <a class="test" tabindex="-1" href="#">
+                      <span class="glyphicon glyphicon-phone"></span><br>
+                      Subs. Tracing</a>
+                      <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                        <li><a [routerLink]="checkLink ? '/configuration' : null" data-link="configuration">Configuration</a></li>
+                        <li><a [routerLink]="checkLink ? '/tracing' : null" data-link="tracing">Trace Results</a></li>                            
+                      </ul>
+                    </li>          
+                  </ul>
+               
+              </li>
+            <li *ngIf='showAdmin==true'>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">          
+              ADMIN</a>
+              <ul class="first-level">
+                <li class="dropdown-submenu" *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/roles' : null" data-link="roles"><span class="glyphicon glyphicon-education"></span><br>Roles</a></li>
+                <li class="dropdown-submenu" *ngIf='showAdmin==true'><a class="active" [routerLink]="checkLink ? '/users' : null" data-link="users"><span class="glyphicon glyphicon-user"></span><br>Users</a></li>
+                <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a  [routerLink]="checkLink ? '/super' : null" data-link="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
+              </ul>
+            
+            </li>
+            </ul>      
+
+              <div class="panel-group">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Users</h4>
+                    <hr>
+
+                    <mat-form-field style="float:left!important;">
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>  
+    
+                  <mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort style="clear:both!important;">
+                     
+                    <ng-container matColumnDef="id">
+                          <mat-header-cell *matHeaderCellDef> #</mat-header-cell>
+                          <mat-cell *matCellDef="let element; let i= dataIndex"> {{i+1}} </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="email">
+                      <mat-header-cell *matHeaderCellDef  mat-sort-header> Email</mat-header-cell>
+                      <mat-cell *matCellDef="let element">
+                          <span *ngIf="!element.beginEdits">{{element.email}}</span>
+                          <input *ngIf="element.beginEdits" type="text" class="form-control" value="{{element.email}}"  [(ngModel)]="element.email">
+                      </mat-cell>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="selectedOptions">
+                       <mat-header-cell *matHeaderCellDef  mat-sort-header>Roles</mat-header-cell>
+                        <mat-cell *matCellDef="let element;">
+                          <span *ngIf="!element.beginEdits">{{element.roleNames.join()}}</span>
+                          <angular4-multiselect [data]="dropdownList"  [(ngModel)]="element.selectedItems" *ngIf="element.beginEdits"
+                          [settings]="dropdownSettings"
+                          (onSelect)="onItemSelect($event,ELEMENT_DATA.indexOf(element))" 
+                          (onDeSelect)="OnItemDeSelect($event,ELEMENT_DATA.indexOf(element))"
+                          (onSelectAll)="onSelectAll($event,ELEMENT_DATA.indexOf(element))"
+                          (onDeSelectAll)="onDeSelectAll($event,ELEMENT_DATA.indexOf(element))"></angular4-multiselect>
+                        </mat-cell>
+                    </ng-container>                              
+    
+                    <ng-container matColumnDef="beginEdits">  
+                      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let element">                      
+                            <button class="btn btn-warning" *ngIf="!element.beginEdits && element.roleNames.indexOf('ADMIN')<0" value="Edit" (click)="editUser($event,ELEMENT_DATA.indexOf(element))"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-warning" *ngIf="element.beginEdits" value="Save" (click)="saveNewUser(ELEMENT_DATA.indexOf(element))"><i class="fa fa-save"></i></button>
+                            &nbsp;<button class="btn btn-danger" *ngIf="!element.beginEdits && element.roleNames.indexOf('ADMIN')<0" value="Delete" (click)="deleteUser($event,ELEMENT_DATA.indexOf(element))"><i class="fa fa fa-trash"></i></button>
+                            <button class="btn btn-danger" *ngIf="element.beginEdits" value="Cancel" (click)="cancelChanges($event,ELEMENT_DATA.indexOf(element))"><i class="fa fa-remove"></i></button>                      
+                        </mat-cell> 
+                    </ng-container>
+                                 
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let element;  columns: displayedColumns;">
+                    </mat-row>
+                    
+                  </mat-table>
+                  <mat-paginator [length]=totalEntries [pageSize]=pageSize [pageSizeOptions]="pageSizeOptions"></mat-paginator>                        
+
+    <!--<table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>            
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Action</th>            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let email of allEmails; let i = index; trackBy: customTrackBy" class="clickable-row">
+            <th scope="row" style="width:5%">{{i+1}}</th>            
+            <td style="width:30%">
+              <span *ngIf="!beginEdits[i]">{{allEmails[i]}}</span>              
+              <input *ngIf="beginEdits[i]" class="form-control" [(ngModel)]="allEmails[i]">                                             
+            </td>      
+            <td style="width:35%">                
+                <span *ngIf="!beginEdits[i]">{{allUserRoles[i]}}</span>
+                <angular4-multiselect [data]="dropdownList" *ngIf="beginEdits[i]" [(ngModel)]="selectedItems[i]"
+                [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event,i)" 
+                (onDeSelect)="OnItemDeSelect($event,i)"
+                (onSelectAll)="onSelectAll($event,i)"
+                (onDeSelectAll)="onDeSelectAll($event,i)"></angular4-multiselect>
+            </td>                   
+            <td style="width:25%"> 
+             <button class="btn btn-warning" *ngIf="!beginEdits[i] && allUserRoles[i].indexOf('ADMIN')<0" value="Edit" (click)="editUser($event,i)"><i class="fa fa-edit"></i></button>
+             <button class="btn btn-warning" *ngIf="beginEdits[i]" value="Save" (click)="saveNewUser(i)"><i class="fa fa-save"></i></button>
+             &nbsp;<button class="btn btn-danger" *ngIf="!beginEdits[i] && allUserRoles[i].indexOf('ADMIN')<0" value="Delete" (click)="deleteUser($event,i)"><i class="fa fa fa-trash"></i></button>
+             <button class="btn btn-danger" *ngIf="beginEdits[i]" value="Cancel" (click)="cancelChanges($event,i)"><i class="fa fa-remove"></i></button>           
+            </td>
+          </tr>    
+        </tbody>
+    </table>-->
+    <button type="button" class="btn btn-default btn-primary" (click)="addUser($event)">Add User</button>
+    </div>
+    </div>
+    </div>
+    </div> 
+
+    <div class="backdrop" [ngStyle]="{'display':displayBackDrop}"></div>
+
+    <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document"> 
+      <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Confirm</h4>
+         </div>
+        <div class="modal-body">
+           <p>You have unsaved changes. Do you wish to continue without saving?</p>
+        </div>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-success" (click)="continueWithoutSaving()">Continue without Saving</button>
+          <button type="button" class="btn btn-default btn-primary" (click)="saveChanges()">Save</button>
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+        </div>
+       </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayError}">
+    <div class="modal-dialog" role="document"> 
+      <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" aria-label="Close" (click)="onCloseHandledError()"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title" *ngIf="!isOperationSuccess">Error</h4>
+           <h4 class="modal-title" *ngIf="isOperationSuccess">Success</h4>
+         </div>
+        <div class="modal-body">
+           <div class="alert alert-danger" *ngIf="!isOperationSuccess">{{errorMsg}}</div>
+           <div class="alert alert-success" *ngIf="isOperationSuccess">{{errorMsg}}</div>
+        </div>        
+        <div class="modal-footer">         
+          <button type="button" class="btn btn-default btn-primary" (click)="onCloseHandledError()">OK</button>
+        </div>
+       </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div>
+    <footer>© 2005-2018  Ruckus Networks, an ARRIS Company. All rights reserved.</footer>
+    <ngx-spinner></ngx-spinner>

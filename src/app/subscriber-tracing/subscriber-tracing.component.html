@@ -1,0 +1,229 @@
+<div class="wrapper">
+
+    <div class="header">
+        <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+       <div class="logo">
+          CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
+        </div> 
+        <ul class="header-right">      
+          <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+            <div class="logout"><a routerLink="/logout">Logout</a></div>
+          </li>
+        </ul>
+      </div>
+    
+  <!--<nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>       
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" >
+        <ul class="nav navbar-nav">   
+            <li>
+                <a routerLink="/dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
+            </li>  
+            <li class="active"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">              
+                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
+                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a routerLink="/callibrate">Configuration</a></li>
+                      <li><a routerLink="/display">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a routerLink="/configuration">Configuration</a></li>
+                        <li><a routerLink="/tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+            </li> 
+          <li *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li *ngIf='showAdmin==true'><a routerLink="/roles">Roles</a></li>
+              <li *ngIf='showAdmin==true'><a routerLink="/users">Users</a></li>
+              <li *ngIf='showAccounts==true && showAdmin==true'><a routerLink="/super">Tenants</a></li>
+            </ul>
+          </li>     
+        </ul>
+   
+        </div>
+      </div>
+    </nav> -->
+<div class="col-lg-12">
+    <ul class="sideMenu">    
+        <li>              
+          <ul class="first-level"> 
+             <li class="dropdown-submenu" style="padding-top:5px!important;">
+                  <a routerLink="/dashboard" tabindex="-1" href="#">
+                        <span class="glyphicon glyphicon-dashboard"></span><br>
+                        Dashboard </a>                        
+             </li>                             
+          </ul>
+        </li>              
+        <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">            
+          FEATURES  </a>
+            <ul class="first-level"> 
+              <li class="dropdown-submenu" *ngIf='showLBS==true'>
+                <a class="test" tabindex="-1" href="#" >
+                  <span class="glyphicon glyphicon-map-marker"></span><br>
+                  Location </a>
+                <ul class="dropdown-menu slide-menu"   style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                  <li><a routerLink="/callibrate" linkAttr="callibrate">Configuration</a></li>
+                  <li><a routerLink="/display" linkAttr="display">Monitoring</a></li>
+                </ul>
+              </li>     
+              <li class="dropdown-submenu" *ngIf='showST==true'>
+                <a class="test active" tabindex="-1" href="#">
+                <span class="glyphicon glyphicon-phone"></span><br>
+                Subs. Tracing</a>
+                <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                  <li><a routerLink="/configuration" linkAttr="configuration">Configuration</a></li>
+                  <li><a routerLink="/tracing"   linkAttr="tracing">Trace Results</a></li>                            
+                </ul>
+              </li>          
+            </ul>
+         
+        </li>
+      <li *ngIf='showAdmin==true'>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">          
+        ADMIN</a>
+        <ul class="first-level">
+          <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/roles" linkAttr="roles"><span class="glyphicon glyphicon-education"></span><br>Roles</a></li>
+          <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/users" linkAttr="users"><span class="glyphicon glyphicon-user"></span><br>Users</a></li>
+          <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a  routerLink="/super" linkAttr="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
+        </ul>
+      
+      </li>
+      </ul>   
+
+           <div class="panel-group">
+              <div class="panel panel-default">            
+              <div class="panel-body">
+              <h4>Tracing</h4>
+              <hr>
+                  <select id="changeGrp" class="form-control" style="width:150px!important;float:left;" [(ngModel)]="configuredGroup"><option [ngValue]="-1" selected>Select Group</option><option *ngFor="let grp of grps"  [ngValue]="grp">{{grp}}</option></select>
+                  <button type="submit" class="btn btn-default btn-primary" style="width:100px!important;float:left;margin-left:10px;" (click)="onChange($event)">Submit</button>
+                  <div class="clearfix"></div>                                  
+                
+                  <a class="filterLinks" data-target="#date_filter">Date Range Filter</a>
+                  <a class="filterLinks" data-target="#time_filter">Time interval filter</a>
+                  <mat-form-field style="float:left!important;">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>  
+
+ 
+  <div id="date_filter" class="well" style="clear:both!important;">
+      <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true" style="font-size:20px;">&times;</span>
+      </button>
+      <label style="width:100px!important;float:left;text-align:center;" class="days_hrs_mins">Days</label><input class="form-control days_hrs_mins" type="number" style="width:150px!important;float:left;">
+      <label style="width:100px!important;float:left;text-align:center;" class="days_hrs_mins">Hours</label><input class="form-control days_hrs_mins" type="number" style="width:150px!important;float:left;">
+      <label style="width:100px!important;float:left;text-align:center;" class="days_hrs_mins">Minutes</label><input class="form-control days_hrs_mins" type="number" style="width:150px!important;float:left;">
+      <button type="submit" class="btn btn-default btn-primary days_hrs_mins" style="width:100px!important;float:left;margin-left:10px;">Submit</button>         
+      <div class="clearfix"></div>
+  </div>                  
+  
+  <div id="time_filter" class="well" style="clear:both!important;">          
+      <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true"  style="font-size:20px;">&times;</span>
+      </button>
+      <label style="width:100px!important;float:left;text-align:center;"  class="specific_range">From</label><input type="date" class="form-control specific_range" style="float:left;line-height: 12px;width:200px!important;">
+      <label style="width:100px!important;float:left;text-align:center;"  class="specific_range">To</label><input type="date" class="form-control specific_range" style="float:left;line-height: 12px;width:200px!important;">
+      <button type="submit" class="btn btn-default btn-primary specific_range" style="width:100px!important;float:left;margin-left:10px;">Submit</button>
+      <div class="clearfix"></div>
+  </div>             
+        
+          
+  <mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
+  <ng-container matColumnDef="imsiid">
+    <mat-header-cell *matHeaderCellDef mat-sort-sheader> IMSI</mat-header-cell>
+    <mat-cell *matCellDef="let element" > {{element.imsiid}} </mat-cell>
+  </ng-container>
+ 
+  <ng-container matColumnDef="subs_name">
+    <mat-header-cell *matHeaderCellDef mat-sort-sheader> Subs. Name</mat-header-cell>
+    <mat-cell *matCellDef="let element" > {{element.subs_name}} </mat-cell>
+  </ng-container>
+      
+  <ng-container matColumnDef="msisdn">
+    <mat-header-cell *matHeaderCellDef mat-sort-sheader> MSISDN</mat-header-cell>
+    <mat-cell *matCellDef="let element" > {{element.msisdn}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header>Subscriber Status </mat-header-cell>
+      <mat-cell *matCellDef="let element">                    
+        <span style="color:green" *ngIf="element.status==0">GRANTED</span>
+        <span style="color:gray" *ngIf="element.status==2">DISABLED</span>
+        <span style="color:blue" *ngIf="element.status==1">ODB</span>        
+      </mat-cell>
+  </ng-container>
+  
+  <ng-container matColumnDef="pcap">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header> Packet Capture </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+       <a class='btn btn-primary' *ngIf='element.isAnalysisAvailable=="Available"' href="http://10.150.76.238:9999/st/api/actions/imsi/{{element.imsiid}}/action/download/pcap"> <span class="glyphicon glyphicon-download"></span></a>
+      </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="logs">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header> Logs </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+       <button class='btn btn-danger' *ngIf='element.isAnalysisAvailable=="Available"'><span class="glyphicon glyphicon-download"></span></button>
+      </mat-cell>
+  </ng-container>
+  
+  <ng-container matColumnDef="isAnalysisAvailable">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header> Analysis </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+       <button class='btn btn-success' *ngIf='element.isAnalysisAvailable=="Available"' (click)="extractData(element)"><span class="glyphicon glyphicon-signal"></span> Analysis</button>
+      </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="msg">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+      </mat-cell>
+    </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">       
+        <div class="example-element-description">  
+            <div [innerHTML]="element.msg"></div>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+  <mat-row *matRowDef="let element; columns: displayedColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element">
+  </mat-row>
+  <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></mat-row>
+  </mat-table>
+  <mat-paginator *ngIf="!noDataFound" (page)="changePage($event)" [length]=totalEntries [pageSize]=pageSize [pageSizeOptions]=pageSizeOptions></mat-paginator>
+  
+  <div class="alert alert-danger" *ngIf="noDataFound">
+    {{errorMsg}}
+  </div>  
+</div>
+</div>          
+</div>
+</div>
+</div>
+
+<footer>© 2005-2018  Ruckus Networks, an ARRIS Company. All rights reserved.</footer>
+<ngx-spinner></ngx-spinner>

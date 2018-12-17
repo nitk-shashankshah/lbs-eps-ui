@@ -1,0 +1,48 @@
+agm-map {
+    height: 100%;
+}
+.form-control{
+    padding:5px;
+    font-size:14px;
+    border:1px solid #999;
+    border-radius:3px;
+    margin-bottom:5px;
+    float:left;
+    width:50%;
+}
+
+.button-success {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background: #7596af;
+    float:right;
+}
+
+.pure-button{
+    display: inline-block;
+    zoom: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 100%;
+    padding: .5em 1em;    
+    border: transparent;
+    text-decoration: none;
+}
+
+*{
+    font-size:14px;
+  }
+  body{
+    font-size:14px;
+  }
+  .form-control{
+    height:unset!important;
+  }

@@ -1,0 +1,128 @@
+<div class="wrapper">
+    <div class="header">
+        <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+       <div class="logo">
+          CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
+        </div> 
+        <ul class="header-right">      
+          <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+            <div class="logout"><a routerLink="/logout">Logout</a></div>
+          </li>
+        </ul>
+      </div>
+  <!--<nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>       
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar" >
+        <ul class="nav navbar-nav">
+            <li>
+                <a routerLink="/dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
+            </li>
+            <li class="active"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">              
+                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
+                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a routerLink="/callibrate">Configuration</a></li>
+                      <li><a routerLink="/display">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a routerLink="/configuration">Configuration</a></li>
+                        <li><a routerLink="/tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+            </li> 
+          <li *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li *ngIf='showAdmin==true'><a routerLink="/roles">Roles</a></li>
+              <li *ngIf='showAdmin==true'><a routerLink="/users">Users</a></li>
+              <li *ngIf='showAccounts==true && showAdmin==true'><a routerLink="/super">Tenants</a></li>
+            </ul>
+          </li>     
+        </ul>
+   
+        </div>
+      </div>
+    </nav> 
+  -->
+    <div class="col-lg-12">
+        <ul class="sideMenu">    
+            <li>              
+              <ul class="first-level"> 
+                 <li class="dropdown-submenu" style="padding-top:5px!important;">
+                      <a routerLink="/dashboard" tabindex="-1" href="#">
+                            <span class="glyphicon glyphicon-dashboard"></span><br>
+                            Dashboard </a>                        
+                 </li>                             
+              </ul>
+            </li>              
+            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">            
+              FEATURES  </a>
+                <ul class="first-level"> 
+                  <li class="dropdown-submenu" *ngIf='showLBS==true'>
+                    <a class="test active" tabindex="-1" href="#" >
+                      <span class="glyphicon glyphicon-map-marker"></span><br>
+                      Location </a>
+                    <ul class="dropdown-menu slide-menu"   style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                      <li><a  routerLink="/callibrate" linkAttr="callibrate">Configuration</a></li>
+                      <li><a routerLink="/display" linkAttr="display">Monitoring</a></li>
+                    </ul>
+                  </li>     
+                  <li class="dropdown-submenu" *ngIf='showST==true'>
+                    <a class="test" tabindex="-1" href="#">
+                    <span class="glyphicon glyphicon-phone"></span><br>
+                    Subs. Tracing</a>
+                    <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
+                      <li><a routerLink="/configuration" linkAttr="configuration">Configuration</a></li>
+                      <li><a routerLink="/tracing" linkAttr="tracing">Trace Results</a></li>                            
+                    </ul>
+                  </li>          
+                </ul>
+             
+            </li>
+          <li *ngIf='showAdmin==true'>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">          
+            ADMIN</a>
+            <ul class="first-level">
+              <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/roles" linkAttr="roles"><span class="glyphicon glyphicon-education"></span><br>Roles</a></li>
+              <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/users" linkAttr="users"><span class="glyphicon glyphicon-user"></span><br>Users</a></li>
+              <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a  routerLink="/super" linkAttr="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
+            </ul>
+          
+          </li>
+          </ul>       
+      <div class="panel-group">
+                                        <div class="panel panel-default">
+                                          <div class="panel-body">              
+                                            <h4>Configure Access Points</h4>
+                                            <hr>
+   <div style="clear:both;float:left;padding:20px;">
+       Please select a floor plan <select id="floor_plan_select" (change)="loadMap($event)"><option value="-1">Select</option><option *ngFor="let floorPlan of floorPlans" value={{floorPlan.content}}>{{floorPlan.name}}</option></select>
+   </div>
+   <div style="float:right;padding-left:20px;">  
+      <button (click)="displayDevices()" class="btn btn-default btn-primary" style="margin-right:10px;margin-bottom:20px;margin-top:10px;">Display Devices</button>   
+   </div>
+   <div class="floorPlanCanvas dragscroll" style="color:#fff;clear:both;margin-top:20px;">
+      <canvas id="displayDevicesCanvas" height="500"></canvas>
+   </div>
+
+  <div style="clear:both;"></div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   <footer>© 2005-2018  Ruckus Networks, an ARRIS Company. All rights reserved.</footer>

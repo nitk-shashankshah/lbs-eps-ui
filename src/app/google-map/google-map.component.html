@@ -1,0 +1,20 @@
+  
+  <button (click)="addMarkers($event)" class="button-success pure-button" style="margin-right:10px;">Add Markers</button> 
+  <button (click)="undoMarkers()" class="button-success pure-button" style="margin-right:10px;">Undo</button>
+  <button (click)="valueChanged()" class="button-success pure-button" style="margin-right:10px;">Clear All </button>
+  <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+  
+  <div style="clear:both;margin-bottom:10px;"></div>
+
+  <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom"  (mapClick)="mapClicked($event)">
+    <agm-marker 
+    *ngFor="let m of markers; let i = index"    
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.label" (markerClick)="clickedMarker(i)">
+    <agm-info-window><b>Latitude:</b> {{m.lat}}, <b>Longitude:</b> {{m.lng}}</agm-info-window>
+    </agm-marker>    
+  </agm-map>
+  
+  <div style="clear:both"></div>
+  <br>
