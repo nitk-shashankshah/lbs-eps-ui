@@ -1,64 +1,17 @@
 <div class="wrapper">
 
-    <div class="header">
-        <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
-       <div class="logo">
-          CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
-        </div> 
-        <ul class="header-right">      
-          <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
-            <div class="logout"><a routerLink="/logout">Logout</a></div>
-          </li>
-        </ul>
-      </div>
-    
-  <!--<nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span> 
-          </button>       
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar" >
-        <ul class="nav navbar-nav">   
-            <li>
-                <a routerLink="/dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
-            </li>  
-            <li class="active"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">              
-                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
-                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a routerLink="/callibrate">Configuration</a></li>
-                      <li><a routerLink="/display">Monitoring</a></li>
-                    </ul>
-                  </li>     
-                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
-                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a routerLink="/configuration">Configuration</a></li>
-                        <li><a routerLink="/tracing">Trace Results</a></li>                            
-                    </ul>
-                  </li>          
-                </ul>
-            </li> 
-          <li *ngIf='showAdmin==true'>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li *ngIf='showAdmin==true'><a routerLink="/roles">Roles</a></li>
-              <li *ngIf='showAdmin==true'><a routerLink="/users">Users</a></li>
-              <li *ngIf='showAccounts==true && showAdmin==true'><a routerLink="/super">Tenants</a></li>
+    <div class="header">    
+        <div class="logo">
+          <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+          <div class="title">CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES</div>
+          <ul class="header-right">      
+              <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+              <div class="logout"><a routerLink="/logout">Logout</a></div>
+              </li>      
             </ul>
-          </li>     
-        </ul>
-   
-        </div>
+        </div> 
       </div>
-    </nav> -->
+
 <div class="col-lg-12">
     <ul class="sideMenu">    
         <li>              
@@ -78,8 +31,8 @@
                   <span class="glyphicon glyphicon-map-marker"></span><br>
                   Location </a>
                 <ul class="dropdown-menu slide-menu"   style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
-                  <li><a routerLink="/callibrate" linkAttr="callibrate">Configuration</a></li>
-                  <li><a routerLink="/display" linkAttr="display">Monitoring</a></li>
+                  <li><a routerLink="/callibrate" linkAttr="callibrate"><span class="glyphicon glyphicon-cog"></span> Configuration</a></li>
+                  <li><a routerLink="/display" linkAttr="display"><span class="glyphicon glyphicon-globe"></span> Monitoring</a></li>
                 </ul>
               </li>     
               <li class="dropdown-submenu" *ngIf='showST==true'>
@@ -87,8 +40,8 @@
                 <span class="glyphicon glyphicon-phone"></span><br>
                 Subs. Tracing</a>
                 <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
-                  <li><a routerLink="/configuration" linkAttr="configuration">Configuration</a></li>
-                  <li><a routerLink="/tracing"   linkAttr="tracing">Trace Results</a></li>                            
+                  <li><a routerLink="/configuration" linkAttr="configuration"><span class="glyphicon glyphicon-cog"></span> Configuration</a></li>
+                  <li><a routerLink="/tracing"   linkAttr="tracing"><span class="glyphicon glyphicon-phone"></span> Trace Results</a></li>                            
                 </ul>
               </li>          
             </ul>
@@ -146,17 +99,17 @@
           
   <mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
   <ng-container matColumnDef="imsiid">
-    <mat-header-cell *matHeaderCellDef mat-sort-sheader> IMSI</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> IMSI</mat-header-cell>
     <mat-cell *matCellDef="let element" > {{element.imsiid}} </mat-cell>
   </ng-container>
  
   <ng-container matColumnDef="subs_name">
-    <mat-header-cell *matHeaderCellDef mat-sort-sheader> Subs. Name</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Subs. Name</mat-header-cell>
     <mat-cell *matCellDef="let element" > {{element.subs_name}} </mat-cell>
   </ng-container>
       
   <ng-container matColumnDef="msisdn">
-    <mat-header-cell *matHeaderCellDef mat-sort-sheader> MSISDN</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> MSISDN</mat-header-cell>
     <mat-cell *matCellDef="let element" > {{element.msisdn}} </mat-cell>
   </ng-container>
 
@@ -189,12 +142,6 @@
        <button class='btn btn-success' *ngIf='element.isAnalysisAvailable=="Available"' (click)="extractData(element)"><span class="glyphicon glyphicon-signal"></span> Analysis</button>
       </mat-cell>
   </ng-container>
-
-  <ng-container matColumnDef="msg">
-      <mat-header-cell *matHeaderCellDef  mat-sort-header> </mat-header-cell>
-      <mat-cell *matCellDef="let element" >
-      </mat-cell>
-    </ng-container>
 
   <ng-container matColumnDef="expandedDetail">
     <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">

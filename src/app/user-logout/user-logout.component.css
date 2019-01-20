@@ -1,7 +1,10 @@
 .account-wall{
     margin-top: 20px;
     padding: 40px 0px 20px 0px;
-    background-color: #f1f1f1;
+}
+
+.row{
+    min-height: 600px;
 }
 
 .header {
@@ -9,23 +12,29 @@
     background-color: #000;
     padding: 0px 0px;
     height:70px;
-    }
-  .logo{
-    background:url(../../assets/images/ruckus_logo_min.svg) no-repeat left -2px;    
+}
+
+h4{
+    font-size: 18px;
+}
+
+.logo{
+    background:url(../../assets/images/ruckus_logo_min.svg) no-repeat 10px 0px;      
     background-size: 180px;
-    float: left;
-    margin-left: 10px;
-    margin-right: 10px;  
+    float: left;    
     color: #c5c5c5;
     height: 70px;
-    font-size: 22px;
-    padding-left: 28%;
-    padding-top: 14px;
-    margin-top: 5px;
-  }
-  html{
+    width:100%;
+    font-size: 18px;
+    text-transform: uppercase;  
+    padding-top: 20px;
+    margin-top: 2px;
+    text-align: center;
+}
+
+html{
     background: #fff;
-    }
+}
   
 /* You can add global styles to this file, and also import other style files */
 .floorPlanCanvas{
@@ -83,7 +92,7 @@ input[type=button]{
 }
 
   footer{
-    color:#333;
+    color:#fff;
     font-size:11px;
     clear:both;
     padding-top:20px;
@@ -110,4 +119,13 @@ nav{
   }
   .form-control{
     height:unset!important;
+  }
+
+  @media only screen and (max-width: 991px){
+    .title{
+      display:none;
+    }
+  }
+  .title{
+    font-size: 18px;
   }

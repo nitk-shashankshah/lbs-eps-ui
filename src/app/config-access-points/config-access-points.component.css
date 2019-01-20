@@ -290,6 +290,7 @@ input[type=button]{
   text-align: center;
   list-style-type: none;
   color:#fff;
+  text-transform: lowercase;
 }
   span{
     line-height:18px;
@@ -303,7 +304,7 @@ input[type=button]{
   }
 
   footer{
-    color:#333;
+    color:#fff;
     font-size:11px;
     clear:both;
     padding-top:20px;
@@ -311,13 +312,10 @@ input[type=button]{
     padding-bottom:25px;
   }
 
-  *{
-    font-size:14px;
-  }
-  body{
-    font-size:14px;
+  body{    
     background:#efefef!important;
   }
+  
   .form-control{
     height:unset!important;
   }
@@ -339,47 +337,56 @@ z-index: 200;
 position: relative;
 } 
 .logout{
-height: 54px;
-width: 100px;
-background: #fb0000;
-box-sizing: border-box;
-z-index: 100;
-text-align: center;  
-top:65px;
-position: absolute;
-right:60px;
-display: none;
+  height: 45px;
+  background: #fb0000;
+  box-sizing: border-box;
+  z-index: 100;    
+  width:100px;
+  margin:16px auto;
+  text-align: center;    
+  position: -webkit-sticky;
+  position: sticky;
+  display: none;
 }
+
 .logout a{
 text-decoration: none;
 display:block;
 margin-top:-5px;
 }
+.dropdown-menu{
+  background:transparent!important;
+  top:40px;
+  float:unset!important;
+  position:static!important;
+  min-width:unset!important;
+  box-shadow: none!important;
+  border:0px !important;
+  }  
 
 .logo{
-background:url(../../assets/images/ruckus_logo_min.svg) no-repeat left -2px;    
-background-size: 180px;
-  float: left;
-  margin-left: 10px;
-  margin-right: 10px;  
+  background:url(../../assets/images/ruckus_logo_min.svg) no-repeat 100px 0px;      
+  background-size: 180px;
+  float: left;    
   color: #c5c5c5;
   height: 70px;
-  font-size: 22px;  
-  padding-left: 28%;
-  text-transform: uppercase;
-  padding-top: 14px;
-  margin-top: 5px;
-}
+  width:100%;
+  font-size: 18px;
+  text-transform: uppercase;  
+  padding-top: 20px;
+  margin-top: 2px;
+  text-align: center;
+  }
 .panel-body{
   min-height:600px;
 }
 
-  .header-right {
-  float: right;
-  margin-top:25px;
-  margin-right:10px;
-  }
- 
+.header-right {
+  right: 2%;    
+  position:absolute;
+  font-size: 12px;
+  top:32px;
+}
 
   .wrapper{
     width:98%;
@@ -390,7 +397,10 @@ background-size: 180px;
   padding-bottom:10px;
   padding-top:15px;
   }
-  
+  .dropdown-submenu a.test{
+    outline:none;
+  }
+
   .dropdown-submenu a{    
     font-size:12px;    
   }
@@ -400,16 +410,18 @@ background-size: 180px;
   .dropdown-submenu > a span{
     font-size: 32px;
   }
-  
   .dropdown-submenu .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -1px;
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    border-radius:0px 4px 4px 0px!important;
+    width:0px;
+    display: block;
+    overflow:hidden;
+    -webkit-transition: width 0.5s; /* Safari */
+    transition: width 0.5s;
   }
   
-  .dropdown-menu li{
-    text-align:center;
-  }
   .slide-menu li{
     text-align: left;
     padding:0px;
@@ -463,16 +475,31 @@ background-size: 180px;
   display: block;
   color:#cacaca; 
   }
-  .dropdown-menu{
-    background:transparent!important;
-    top:40px;
-    float:unset!important;
-    position:static!important;
-    min-width:unset!important;
-    box-shadow: none!important;
-    border:0px !important;
-    }  
   
+  .slide-menu li a:hover{
+    color:#333!important;
+  }
+  
+  .dropdown-menu > li > a:hover{
+    color:#333;
+  }
+  
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    border-radius:0px 4px 4px 0px!important;
+    width:0px;
+    display: block;
+    overflow:hidden;
+    -webkit-transition: width 0.5s; /* Safari */
+    transition: width 0.5s;
+  }
+
+  .slide-menu li a{
+    color:#fff!important;
+  }    
+
   .first-level:first-child{
     margin-top:15px;
   }
@@ -485,30 +512,34 @@ background-size: 180px;
     color:#888888;
   }
   .hamburger{
-    padding:18px 30px;   
-    float:left;
-    font-size:28px;
+    padding:24px 18px;   
+    float:left;    
     color:#fff;
+    position: absolute;
+    left:2%;
+    top:10px;
   }
-  
+  .hamburger span{
+    font-size:28px;
+  }
   .panel-group{
     margin-bottom:0px;
   }
+
   .logo{
-    background:url(../../assets/images/ruckus_logo_min.svg) no-repeat left -2px;      
+    background:url(../../assets/images/ruckus_logo_min.svg) no-repeat 100px 0px;      
     background-size: 180px;
-    float: left;
-    margin-left: 10px;
-    margin-right: 10px;  
+    float: left;    
     color: #c5c5c5;
     height: 70px;
+    width:100%;
     font-size: 18px;
-    padding-left: 22%;
-    text-transform: uppercase;
-    float:left;
+    text-transform: uppercase;  
     padding-top: 20px;
-    margin-top: 5px;
+    margin-top: 2px;
+    text-align: center;
     }
+
   .panel-body{
     min-height:600px;
     padding-left:100px;
@@ -520,3 +551,12 @@ background-size: 180px;
     height:65px;
     border-radius:10px 10px 0px 0px;
     }
+    @media only screen and (max-width: 991px){
+      .title{
+        display:none;
+      }
+    }
+    .title{
+      font-size: 18px;
+    }
+  

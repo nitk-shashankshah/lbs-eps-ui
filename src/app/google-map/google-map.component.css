@@ -46,3 +46,12 @@ agm-map {
   .form-control{
     height:unset!important;
   }
+
+  @media only screen and (max-width: 991px){
+    .title{
+      display:none;
+    }
+  }
+  .title{
+    font-size: 18px;
+  }

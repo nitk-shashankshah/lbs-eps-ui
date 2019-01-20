@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
+import { LoggerService } from '../logger.service';
+
 import { environment } from '../../environments/environment'; 
 import * as $AB from 'jquery/dist/jquery.min.js';
 
@@ -142,21 +144,21 @@ export class UnauthorizedViewComponent implements OnInit {
     let that=this;
     that.org_options=[];
     var url='http://'+that.server+'/AccountUsers.php';
-
+    
     var obj={};
     
     if (this.showAccounts!=true)
-      obj["orgId"]=this.uploadedService.getOrgId();    
+      obj["orgId"]=this.uploadedService.getOrgId();
     
-    this.orgId = this.uploadedService.getOrgId();    
+    this.orgId = this.uploadedService.getOrgId();
 
     that.http.post(url,  JSON.stringify(obj), {
       responseType: 'json'
     }).map(response => {
-        //var data=[];   
-        for (var each in response){            
+        var data=[];        
+        for (var each in response){      
             if (response[each]["organization"]=="Ruckus Wireless"){
-              this.orgName = response[each]["organization"];
+              this.orgName = response[each]["organization"];              
               continue;
             }
             that.barChartLabels.push(response[each]["organization"]);
@@ -167,7 +169,7 @@ export class UnauthorizedViewComponent implements OnInit {
       console.log(re);
     });
     
-    if (this.showAccounts==true){
+    if (this.showAccounts==true){      
       that.http.post('http://'+that.server+'/listOrganizations.php',  JSON.stringify({}), {
         responseType: 'json'
       }).map(response => {
@@ -190,8 +192,11 @@ export class UnauthorizedViewComponent implements OnInit {
           }
         }  
 
-        that.allAccounts=Object.keys(allIds).length-1;
-
+        if (Object.keys(allIds).length>0)
+           that.allAccounts=Object.keys(allIds).length-1;
+        else
+           that.allAccounts=0;
+           
         let clone = JSON.parse(JSON.stringify(this.doughnutChartData));
         var ind=0;
         for (var k in obj){
@@ -208,7 +213,7 @@ export class UnauthorizedViewComponent implements OnInit {
     }
   }
 
-  constructor(private uploadedService :UploadedFloorPlanService,private http: HttpClient,private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
+  constructor(private uploadedService :UploadedFloorPlanService,private logger :LoggerService,private http: HttpClient,private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
   
   ngOnInit() {
     this.username = sessionStorage.getItem('username');
@@ -232,13 +237,14 @@ export class UnauthorizedViewComponent implements OnInit {
     that.uploadedService.setShowST(false);
     that.uploadedService.setShowAccounts(false);
     that.uploadedService.setAllowConf(false);
-    this.spinner.show();
+    this.spinner.show();    
+
     that.http.post('http://'+that.server+'/listUserPermissions.php?user_id='+that.uploadedService.getUser(),  JSON.stringify({}), {
         responseType: 'json'
       }).map(response => {
           this.spinner.hide();
           for (var each in response){
-            for (var k in response[each]){                              
+            for (var k in response[each]){
                 if (k=="ADMIN"){
                   that.uploadedService.setShowAdmin(true);
                   that.showAdmin=true;
@@ -263,6 +269,8 @@ export class UnauthorizedViewComponent implements OnInit {
             }
           }      
           
+          this.logger.log("LOGIN","", new Date().toUTCString(),"","SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"DASHBOARD",this.uploadedService.getOrgName() as string);
+
           that.populateData();    
           let jQueryInstance=this;
     
@@ -286,7 +294,8 @@ export class UnauthorizedViewComponent implements OnInit {
                    $(".logout").hide();
               }
               if (!$(event.target).hasClass('.slide-menu')) {
-                $(".slide-menu").hide();
+                $AB(".slide-menu").css('width','0px');
+                $AB('.dropdown-submenu a.test').css('color','#888888');
               }
             });                        
 
@@ -310,17 +319,14 @@ export class UnauthorizedViewComponent implements OnInit {
 
 
             $AB('.dropdown-submenu a.test').on("click", function(e){
-              $AB("a.test").css("color","#888888");              
+              $AB("a.test").css("color","#888888");            
+              $AB(".slide-menu").css('width','0px');  
               $AB(this).css("color","#fff");
-              $AB(this).next('ul').toggle();              
+              $AB(this).next('ul').css('width','150px');       
               e.stopPropagation();
               e.preventDefault();
-            });     
-                  
-            $AB('a.dropdown-toggle').off('click').on('click',function(e){        
-              $AB("a.test").next(".dropdown-menu").hide();
             });
-
+                   
           });
       }).subscribe(response => {
         console.log(response);

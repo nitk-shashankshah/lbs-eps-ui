@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { FloorPlanComponent } from './floor-plan/floor-plan.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {HttpClientModule} from '@angular/common/http';
-
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapComponent } from './google-map/google-map.component';
@@ -32,6 +32,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StConfigurationComponent } from './st-configuration/st-configuration.component';
 import { PathLocationStrategy,HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ConfirmPasswordComponent,
     RolesPanelComponent,
     SubscriberTracingComponent,
-    StConfigurationComponent
+    StConfigurationComponent    
   ],
   imports: [
     BrowserModule,
@@ -67,6 +68,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatCheckboxModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
+    //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),  
+    LoggerModule.forRoot({ level: environment.production === true? NgxLoggerLevel.LOG :
+      environment.production === false ? NgxLoggerLevel.DEBUG : NgxLoggerLevel.INFO,
+      serverLogLevel: NgxLoggerLevel.OFF }),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDvPv3hoRfCxWWl7Bu0yzXP7k1KfT1llEs',
       libraries: ["places"]

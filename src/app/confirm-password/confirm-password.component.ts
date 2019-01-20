@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment'; 
+import { LoggerService } from '../logger.service';
+import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
 
 @Component({
   selector: 'app-confirm-password',
@@ -13,7 +15,7 @@ export class ConfirmPasswordComponent implements OnInit {
   public q="";  
   public username="";
   public server = environment.server;
-  constructor(private http: HttpClient,private activatedRoute: ActivatedRoute) {
+  constructor(private http: HttpClient,private activatedRoute: ActivatedRoute,private uploadedService : UploadedFloorPlanService,private logger : LoggerService) {
       this.activatedRoute.queryParams.subscribe(params => {
             this.q = params['q'];
             this.username = params['email'];
@@ -37,29 +39,35 @@ export class ConfirmPasswordComponent implements OnInit {
 			responseType: 'text'
 		  }).map(response => {
       that.output="&nbsp;&nbsp;&nbsp;&nbsp;"+response +"<br><br>&nbsp;&nbsp;&nbsp; <a routerLink='/login'>Login again</a>";
-     
+      that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","SUCCESS",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);           
 		  }).subscribe(response => {
       console.log(response);
       });
     }
     else {
       alert("Your passwords do not match.");
+      that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","FAIL",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);     
     }
   }
 
   ngOnInit() {
     if (sessionStorage.getItem('username'))
       this.username = sessionStorage.getItem('username');
-
+    
     sessionStorage.removeItem('showAdmin');
     sessionStorage.removeItem('showLBS');
     sessionStorage.removeItem('showST');
     sessionStorage.removeItem('showAccounts');
+    sessionStorage.removeItem('showRoles');
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('orgId');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('totalLogins');
     sessionStorage.removeItem('group');
+    sessionStorage.removeItem('roleName');
+    sessionStorage.removeItem('orgName');
+    sessionStorage.removeItem('allowConf');
+    sessionStorage.clear();
   }
 
   validateEmail(mail)

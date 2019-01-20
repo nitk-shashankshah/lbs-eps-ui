@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'; 
 import * as $AB from 'jquery/dist/jquery.min.js';
-
+import { LoggerService } from '../logger.service';
 import { MatTableDataSource, throwMatDuplicatedDrawerError } from '@angular/material';
 import { MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material';
@@ -30,7 +30,7 @@ export class SuperAdminComponent implements OnInit  {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ["id","org","admin","selectedOptions","showGroups","beginEdits","isSuperUser"];  
+  displayedColumns = ["id","org","admin","selectedOptions","showGroups","beginEdits","isSuperUser",];  
   
   public ELEMENT_DATA: Element[] = [];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -77,8 +77,7 @@ export class SuperAdminComponent implements OnInit  {
   public isOperationSuccess=false;
 
   public server = environment.server;
-  dropdownList = [];
-  selectedItems = [];
+  dropdownList = [];  
   dropdownSettings = {};
 
   constructor(
@@ -87,6 +86,7 @@ export class SuperAdminComponent implements OnInit  {
     private router: Router,
     private http: HttpClient,   
     private spinner: NgxSpinnerService,
+    private logger: LoggerService,
     private uploadedService : UploadedFloorPlanService ) { };
     
     ngAfterViewInit() {
@@ -102,10 +102,13 @@ export class SuperAdminComponent implements OnInit  {
     }    
     
     this.dropdownList = [];
-  
+
+    this.logger.debug("super-admin.component.ts","LIST FEATURES",this.username as string,new Date().toUTCString());
+
     this.http.post('http://'+this.server+'/listFeatures.php',  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
+       this.logger.debug("super-admin.component.ts","LIST FEATURES:"+JSON.stringify(response),this.username as string,new Date().toUTCString());
        for (var each in response){
          var obj={};
          if (response[each]!="ADMIN" && response[each]!="SUPER USER"){
@@ -117,9 +120,6 @@ export class SuperAdminComponent implements OnInit  {
     }).subscribe(response => {
       console.log(response);
     });
-  
-    this.selectedItems = [       
-    ];
     
     this.dropdownSettings = { 
           singleSelection: false,
@@ -146,6 +146,7 @@ export class SuperAdminComponent implements OnInit  {
       responseType: 'json'
     }).map(response => {
       this.spinner.hide();
+      this.logger.debug("super-admin.component.ts","LIST ORGANIZATIONS:"+JSON.stringify(response),this.username as string,new Date().toUTCString());
       for (var k in response){
         if (response[k]["name"]=="Ruckus Wireless")
            continue;
@@ -232,7 +233,8 @@ export class SuperAdminComponent implements OnInit  {
           $AB(".logout").hide();
         }
         if (!$AB(event.target).hasClass('.slide-menu')) {
-          $AB(".slide-menu").hide();
+          $AB(".slide-menu").css('width','0px');
+          $AB('.dropdown-submenu a.test').css('color','#888888');
         }
       });
 
@@ -250,9 +252,10 @@ export class SuperAdminComponent implements OnInit  {
       });
 
       $AB('.dropdown-submenu a.test').on("click", function(e){
-        $AB("a.test").css("color","#888888");              
+        $AB("a.test").css("color","#888888");            
+        $AB(".slide-menu").css('width','0px');  
         $AB(this).css("color","#fff");
-        $AB(this).next('ul').toggle();              
+        $AB(this).next('ul').css('width','150px');       
         e.stopPropagation();
         e.preventDefault();
       });     
@@ -363,9 +366,11 @@ export class SuperAdminComponent implements OnInit  {
     this.currentOrganization=orgId;
     that.grps[i]=[];
     that.beginGroupEdits=[];
+    this.logger.info("super-admin.component.ts","VIEW GROUPS",this.username as string,new Date().toUTCString());
     this.http.post('http://'+this.server+'/listGroups.php?org_id='+orgId,  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {                
+        this.logger.debug("super-admin.component.ts","VIEW GROUPS:"+JSON.stringify(response),this.username as string,new Date().toUTCString());
         for (var each in response){               
           that.grps[i]=response[each];                            
         }            
@@ -396,9 +401,10 @@ export class SuperAdminComponent implements OnInit  {
 
   addOrganization(event){
     if (this.allOrgIds.indexOf('')<0){
-      this.allOrgIds.push('');
-      this.beginEdits.push(true);
-      this.grps.push([]);
+      this.allOrgIds.unshift('');
+      this.beginEdits.unshift(true);
+      this.tempRow.unshift([]);
+      this.grps.unshift([]);
       this.checkLink = (this.beginEdits.indexOf(true)>=0?false:true);      
       var ele =new Object();
       ele["id"]='';
@@ -410,11 +416,11 @@ export class SuperAdminComponent implements OnInit  {
       ele["grps"]=[];
       ele["admin"]='';
       ele["showGroups"]=false;
-      this.ELEMENT_DATA.push(ele as Element);
+      this.ELEMENT_DATA.unshift(ele as Element);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.paginator.lastPage();
+      this.paginator.firstPage();
     }
   }
 
@@ -426,6 +432,7 @@ export class SuperAdminComponent implements OnInit  {
       this.ELEMENT_DATA.splice(count,1);
       this.allOrgIds.splice(count,1);
       this.beginEdits.splice(count,1);   
+      this.tempRow.splice(count,1);   
       this.grps.splice(count,1);
       this.checkLink = (this.beginEdits.indexOf(true)>=0?false:true);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -436,17 +443,22 @@ export class SuperAdminComponent implements OnInit  {
       var sure = confirm("Are you sure you want to delete this organization and all associated users?");    
       if (sure==true)
       {
-      this.spinner.show();          
+      this.spinner.show();     
+      this.logger.debug("super-admin.component.ts","DELETE ORGANIZATION",this.username as string,new Date().toUTCString());     
       this.http.post('http://'+this.server+'/deleteOrganization.php', JSON.stringify({"id":that.allOrgIds[count]}), {
        responseType: 'json'
       }).map(response => {
        this.spinner.hide();
        if (response["success"]==1){
-         that.showError("Organization deleted successfully.",true);
+         that.showError("Organization "+ele["org"]+" deleted successfully.",true);
          that.initAll();
          that.ngOnInit();
+         this.logger.debug("super-admin.component.ts","DELETE ORGANIZATION SUCCESS",this.username as string,new Date().toUTCString());     
+         this.logger.log("DELETE","TENANT", new Date().toUTCString(),ele.org as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);
        }else{
          that.showError(response["error"],false);
+         this.logger.error("super-admin.component.ts","DELETE ORGANIZATION FAILED - "+response["error"],this.username as string,new Date().toUTCString());     
+         this.logger.log("DELETE","TENANT", new Date().toUTCString(),ele.org as string,"FAIL",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);
        }
       }).subscribe(response => {
        console.log(JSON.stringify(response));
@@ -464,10 +476,14 @@ export class SuperAdminComponent implements OnInit  {
      }).map(response => {
       this.spinner.hide();
       if (response["success"]=="1") {
+        this.logger.debug("super-admin.component.ts","DELETE GROUP SUCCESS",this.username as string,new Date().toUTCString());     
+        this.logger.log("DELETE","GROUP", new Date().toUTCString(),that.grps[this.currentIndex][i] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);
         that.viewGroups(that.currentOrganization,that.currentIndex);
-        console.log(response);     
+        console.log(response);             
       }else{
         alert(response["error"]);
+        this.logger.error("super-admin.component.ts","DELETE GROUP FAILED - "+response["error"],this.username as string,new Date().toUTCString());     
+        this.logger.log("DELETE","GROUP", new Date().toUTCString(),that.grps[this.currentIndex][i] as string,"FAIL",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);    
       }
      }).subscribe(response => {
       console.log(JSON.stringify(response));
@@ -479,45 +495,56 @@ export class SuperAdminComponent implements OnInit  {
   }
 
   cancelGroupEntryChanges(event,i){    
-    this.beginGroupEdits[i]=!this.beginGroupEdits[i];   
-    if (!this.grps[i]){
+    this.beginGroupEdits[i]=!this.beginGroupEdits[i];       
+    if (!this.grps[this.currentIndex][i]){      
       this.deleteGroupEntry(event,i);
     }
-    else{
-      this.grps[i]=this.tempGrpEntry;   
+    else{      
+      this.grps[this.currentIndex][i]=this.tempGrpEntry;   
     }
   }
 
   saveGroupEntry(i){
     var that=this;  
+  
+    var patt = new RegExp("[^a-zA-Z0-9\\s#@$_&()]");
+    if (patt.test(this.grps[this.currentIndex][i] as string)==true){
+      alert("Only alphanumeric characters and special characters #,$,@,&,(,) and _ are allowed for Group Name.");
+      return;
+    }
+
     this.spinner.show();
     this.http.post('http://'+this.server+'/createGroup.php', JSON.stringify({"orgId":that.currentOrganization, "group": this.grps[this.currentIndex][i]}), {
       responseType: 'json'
     }).map(response => {
       this.spinner.hide();
       if (response["success"]==1){
-        that.viewGroups(that.currentOrganization,that.currentIndex);
+        this.logger.debug("super-admin.component.ts","CREATE GROUP SUCCESS",this.username as string,new Date().toUTCString());     
+        this.logger.log("CREATE","GROUP", new Date().toUTCString(),this.grps[this.currentIndex][i] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);    
+        that.viewGroups(that.currentOrganization,that.currentIndex);    
       }
       else{        
         alert(response["error"]);
-        console.log(response);           
+        this.logger.error("super-admin.component.ts","CREATE GROUP FAILED -"+response["error"],this.username as string,new Date().toUTCString());             
+        this.logger.log("CREATE","GROUP", new Date().toUTCString(),this.grps[this.currentIndex][i] as string,"FAIL",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);            
+        that.viewGroups(that.currentOrganization,that.currentIndex); 
       }
     }).subscribe(response => {
       console.log(JSON.stringify(response));
     });  
- }
+  }
   
   editGroupEntry(event,i){
     this.beginGroupEdits[i]=!this.beginGroupEdits[i];
-    this.tempGrpEntry=this.grps[i];
+    this.tempGrpEntry=this.grps[this.currentIndex][i];
   } 
 
   addGroupEntry(event){
-    this.grps[this.currentIndex].push(''); 
+    this.grps[this.currentIndex].push('');
     this.beginGroupEdits.push(true);
   }
   
-  editOrg(event,i){     
+  editOrg(event,i){
      this.ELEMENT_DATA[i]["beginEdits"]=!this.ELEMENT_DATA[i]["beginEdits"];   
      this.beginEdits[i]=!this.beginEdits[i];
      var element = this.ELEMENT_DATA[i];
@@ -525,7 +552,8 @@ export class SuperAdminComponent implements OnInit  {
      this.tempRow[i]=[];
      this.tempRow[i].push(element["id"]);
      this.tempRow[i].push(element["admin"]);
-     this.tempRow[i].push(element["selectedOptions"]);
+     this.tempRow[i].push(element["selectedOptions"]);     
+     this.tempRow[i].push(element["selectedItems"]);     
   }
 
   cancelChanges(event,i){         
@@ -538,7 +566,11 @@ export class SuperAdminComponent implements OnInit  {
     else {
       this.ELEMENT_DATA[i]["id"]=this.tempRow[i][0];      
       this.ELEMENT_DATA[i]["admin"]=this.tempRow[i][1];
-      this.ELEMENT_DATA[i]["selectedOptions"]=this.tempRow[i][2];
+      this.ELEMENT_DATA[i]["selectedOptions"]=this.tempRow[i][2];      
+      this.ELEMENT_DATA[i]["selectedItems"]=this.tempRow[i][3];   
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;   
     }    
   }
   
@@ -551,10 +583,14 @@ export class SuperAdminComponent implements OnInit  {
 			responseType: 'json'
 	  }).map(response => {
       this.spinner.hide();           
-       if (response["success"]==1)
-          alert("The password has been successfully reset to \"ruckus\" for "+adminId);
-       else
-          alert("The password could not be reset.");
+       if (response["success"]==1){          
+          this.showError("The password has been successfully reset to \"ruckus\" for "+adminId,true);                      
+          this.logger.log("UPDATE","PASSWORD", new Date().toUTCString(),this.allOrgs[this.currentIndex] as string,"SUCCESS",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);    
+       }
+       else{          
+          this.showError("The password could not be reset for "+adminId,false);                      
+          this.logger.log("UPDATE","PASSWORD", new Date().toUTCString(),this.allOrgs[this.currentIndex] as string,"FAIL",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);    
+       }
 	  }).subscribe(response => {
       console.log(response);
     });
@@ -588,9 +624,24 @@ export class SuperAdminComponent implements OnInit  {
       return;
     }
 
+    var patt = new RegExp("[^a-zA-Z0-9\\s#@$_&()]");
+    if (patt.test(org as string)==true){
+      alert("Only alphanumeric characters and special characters #,$,@,&,(,) and _ are allowed for Name.");
+      return;
+    }
+    
+
     if (element["selectedOptions"].length==0){
       alert("Please select at least one feature to create an organization");
       return;
+    }
+
+    for (var k in that.grps[count]){
+      var patt = new RegExp("[^a-zA-Z0-9\\s#@$_&()]");
+      if (patt.test(this.grps[count][k] as string)==true){
+        alert("Only alphanumeric characters and special characters #,$,@,&,(,) and _ are allowed for Group Name.");
+        return;
+      }
     }
 
     element["selectedOptions"].push('ADMIN');
@@ -615,43 +666,53 @@ export class SuperAdminComponent implements OnInit  {
         responseType: 'json'
         }).map(checkRes => {
           if (checkRes["exists"]==true){    
-            that.showError("This user already exists",false);                      
+            that.showError("This user already exists",false);         
+            this.logger.warn("super-admin.component.ts","CREATE USER WARNING - This user already exists",this.username as string,new Date().toUTCString());                  
           }
-          else { 
+          else {
       this.http.post('http://'+that.server+'/createOrganization.php', JSON.stringify({"name": org, "features":features}), {
       responseType: 'json'
-      }).map(response => {
-        if (response["success"]==1){            
+      }).map(response => {        
+        if (response["success"]==1){           
+          this.logger.log("CREATE","TENANT", new Date().toUTCString(),org as string,"SUCCESS",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);              
+          
+          this.logger.debug("super-admin.component.ts","CREATE "+org+" SUCCESS",this.username as string,new Date().toUTCString());
+          
           that.http.post('http://'+that.server+'/createUserWithPermissions.php', JSON.stringify({"user": adminName , "emailId":adminName, "orgId":response["org_id"]}), {
             responseType: 'json'
           }).map(resp => {
              if (resp["success"]=="1"){
               that.currentOrganization=response["org_id"];
+              this.logger.debug("super-admin.component.ts","CREATED USER:"+adminName+" SUCCESS",this.username as string,new Date().toUTCString());
               that.http.post('http://'+that.server+'/updateAdmin.php', JSON.stringify({"orgId": response["org_id"], "admin": adminName}), {
               responseType: 'json'
-              }).map(res => {
+              }).map(res => {                
                if (resp["success"]=="1"){
+                 this.logger.debug("super-admin.component.ts","UPDATE ADMIN:"+adminName+" SUCCESS",this.username as string,new Date().toUTCString());                  
                  this.http.post('http://'+this.server+'/createRole.php', JSON.stringify({"orgId":response["org_id"], "roleName": "ADMIN", "feature":features, "access": "READ/WRITE"}), {
                   responseType: 'json'
-                 }).map(output => {      
+                 }).map(output => {                        
                   if (output["success"]==1){ 
                   var obj={};
+                  this.logger.debug("super-admin.component.ts","CREATED ROLE ADMIN",this.username as string,new Date().toUTCString());                  
                   obj["userId"]=resp["admin"];
-                  obj["roleId"]=output["role_id"];    
+                  obj["roleId"]=output["role_id"];                      
                   this.http.post('http://'+this.server+'/updateUserRole.php', JSON.stringify(obj), {
                     responseType: 'json'
                   }).map(op => {      
                     this.spinner.hide();        
                     if (op["success"]=="1"){
-                      that.showError("Organization created successfully",true);                      
+                      this.logger.debug("super-admin.component.ts","UPDATE ADMIN ROLE SUCCESS",this.username as string,new Date().toUTCString());
+                      that.showError("Organization "+org+" created successfully",true);                      
                       for (var k in that.grps[count]){
                         that.saveGroupEntry(k);
                       } 
                       that.initAll();
                       that.ngOnInit();
                     }
-                    else{                      
+                    else {
                       that.showError(op["error"],false);     
+                      this.logger.error("super-admin.component.ts","UPDATE ADMIN ROLE FAILED -"+op["error"],this.username as string,new Date().toUTCString());                                      
                       that.spinner.hide();                 
                     }
                   }).subscribe(r => {
@@ -659,9 +720,9 @@ export class SuperAdminComponent implements OnInit  {
                   });  
                   }
                   else{                          
-                  that.showError(output["error"],false);   
-                  console.log(response);  
-                  that.spinner.hide();         
+                    that.showError(output["error"],false);   
+                    this.logger.error("super-admin.component.ts","CREATE ROLE FAILED -"+output["error"],this.username as string,new Date().toUTCString());                     
+                    that.spinner.hide();         
                   }
                  }).subscribe(response => {
                   console.log(JSON.stringify(response));
@@ -674,12 +735,12 @@ export class SuperAdminComponent implements OnInit  {
                   responseType: 'json'
                  }).map(output => {
                   this.spinner.hide();      
-                  if (output["success"]==1){  
-
+                  if (output["success"]==1){
+                    this.logger.debug("super-admin.component.ts","CREATE MONITOR ROLE SUCCESS",this.username as string,new Date().toUTCString());
                   }
                   else{                                            
-                  that.showError(output["error"],false);                   
-                  console.log(response);                           
+                    that.showError(output["error"],false);                   
+                    this.logger.error("super-admin.component.ts","CREATE MONITOR ROLE ERROR:"+output["error"],this.username as string,new Date().toUTCString());                     
                   }
                  }).subscribe(response => {
                   console.log(JSON.stringify(response));
@@ -687,6 +748,7 @@ export class SuperAdminComponent implements OnInit  {
               }
               else{
                 that.showError(resp["error"],false); 
+                this.logger.error("super-admin.component.ts","UDPATE ADMIN FAILED:"+resp["error"],this.username as string,new Date().toUTCString());                     
                 that.spinner.hide();
               }        
             }).subscribe(response => {
@@ -694,14 +756,17 @@ export class SuperAdminComponent implements OnInit  {
             });  
           }
           else{
-            that.showError(resp["error"],false); 
+            that.showError(resp["error"],false);
+            this.logger.error("super-admin.component.ts","CREATE USER ERROR:"+resp["error"],this.username as string,new Date().toUTCString());
             that.spinner.hide();
           }
           }).subscribe(response => {
             console.log(JSON.stringify(response));
           });           
         }else{          
-          that.showError(response["error"],false);      
+          that.showError(response["error"],false);   
+          this.logger.error("super-admin.component.ts","CREATE ORGANIZATION ERROR:"+response["error"],this.username as string,new Date().toUTCString());                        
+          this.logger.log("CREATE","TENANT", new Date().toUTCString(),org as string,"FAIL",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);
           that.spinner.hide();
         }
       }).subscribe(response => {
@@ -716,22 +781,28 @@ export class SuperAdminComponent implements OnInit  {
       if (element["isSuperUser"]==true)
         features='LBS,SUBSCRIBER TRACING,SUPER USER,ADMIN';
       this.spinner.show();
+      this.logger.debug("super-admin.component.ts","UPDATE ORGANIZATION",this.username as string,new Date().toUTCString());                        
       this.http.post('http://'+that.server+'/updateOrganization.php', JSON.stringify({"id":element["id"], "features":features}), {
          responseType: 'json'
       }).map(response => {
         if (response["success"]==1){
+            this.logger.log("UPDATE","TENANT",new Date().toUTCString(),this.allOrgs[this.currentIndex] as string,"SUCCESS",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);
+            this.logger.debug("super-admin.component.ts","UPDATE ORGANIZATION - SUCCESS",this.username as string,new Date().toUTCString());                        
             that.http.post('http://'+that.server+'/updateAdmin.php', JSON.stringify({"orgId": element["id"], "admin":element["admin"]}), {
                responseType: 'json'
             }).map(res => {
                this.spinner.hide();
-               that.showError("Organization updated successfully.",true);
+               this.logger.debug("super-admin.component.ts","UPDATE ADMIN - SUCCESS",this.username as string,new Date().toUTCString());                        
+               that.showError("Organization "+element["org"]+" updated successfully.",true);
                that.initAll();
                that.ngOnInit();
             }).subscribe(response => {
               console.log(JSON.stringify(response));
             });
-        }else{          
+        } else {
           that.showError(response["error"],false);
+          this.logger.error("super-admin.component.ts","UPDATE ORGANIZATION ERROR:"+response["error"] ,this.username as string,new Date().toUTCString());                        
+          this.logger.log("UPDATE","TENANT", new Date().toUTCString(),this.allOrgs[this.currentIndex] as string,"FAIL",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);      
         }
       }).subscribe(response => {
          console.log(JSON.stringify(response));

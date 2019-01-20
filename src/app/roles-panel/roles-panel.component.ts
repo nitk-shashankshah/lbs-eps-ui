@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import * as $AB from 'jquery/dist/jquery.min.js';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { LoggerService } from '../logger.service';
 import { MatTableDataSource, throwMatDuplicatedDrawerError } from '@angular/material';
 import { MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material';
@@ -70,6 +70,7 @@ export class RolesPanelComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private spinner: NgxSpinnerService,
+    private logger: LoggerService,
     private uploadedService : UploadedFloorPlanService) {};
 
   ngOnInit() {
@@ -86,16 +87,19 @@ export class RolesPanelComponent implements OnInit {
 
     var that=this;
 
+    this.logger.info("roles-panel.component.ts","LIST ROLES",this.username as string,new Date().toUTCString());            
+
     this.spinner.show();    
     this.http.post('http://'+this.server+'/listRoles.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
       var roleDict={};     
+      this.logger.debug("roles-panel.component.ts","LIST ROLES SUCCESS:"+JSON.stringify(response),this.username as string,new Date().toUTCString());
       for (var each in response){
         for (var k in response[each]){                    
           roleDict[k]=response[each][k];
-          if (response[each][k]=="ADMIN")          
-             continue;
+          //if (response[each][k]=="ADMIN")
+          //   continue;
           var obj={};
           obj["id"]=k;
           obj["itemName"]=response[each][k];
@@ -108,6 +112,8 @@ export class RolesPanelComponent implements OnInit {
       }).map(response => {
         this.spinner.hide(); 
         var dict={};
+        this.logger.debug("roles-panel.component.ts","LIST USERS SUCCESS:"+JSON.stringify(response),this.username as string,new Date().toUTCString());            
+
         for (var ind in response){
             if (!dict.hasOwnProperty(response[ind]["user_id"]))
                dict[response[ind]["user_id"]]={};
@@ -154,10 +160,10 @@ export class RolesPanelComponent implements OnInit {
           that.tempRow.push([]);
         }
       }).subscribe(response => {
-        console.log(response);
+        //console.log(response);
       });  
     }).subscribe(response => {
-      console.log(response);
+      //console.log(response);
     });
 
     let jQueryInstance=this;
@@ -189,7 +195,9 @@ export class RolesPanelComponent implements OnInit {
              $(".logout").hide();
         }
         if (!$(event.target).hasClass('.slide-menu')) {
-          $(".slide-menu").hide();
+          $AB(".slide-menu").css('width','0px');
+          $AB('.dropdown-submenu a.test').css('color','#888888');
+          $AB('.dropdown-submenu a.active').css("color","#fff");    
         }
       });
 
@@ -200,15 +208,16 @@ export class RolesPanelComponent implements OnInit {
         }
       });
 
-      $AB('.dropdown-submenu a.test').on("click", function(e){        
-        $AB(this).next('ul').toggle();        
+      
+      $AB('.dropdown-submenu a.test').on("click", function(e){
+        $AB("a.test").css("color","#888888");            
+        $AB(".slide-menu").css('width','0px');  
+        $AB(this).css("color","#fff");
+        $AB(this).next('ul').css('width','150px');       
         e.stopPropagation();
         e.preventDefault();
-      });     
-            
-      $AB('a.dropdown-toggle').off('click').on('click',function(e){        
-        $AB("a.test").next(".dropdown-menu").hide();
       });
+       
     });
   }
 
@@ -260,7 +269,7 @@ export class RolesPanelComponent implements OnInit {
     this.ELEMENT_DATA[i]["selectedOptions"]=[];
     for (var k in this.ELEMENT_DATA[i]["selectedItems"]){
       this.ELEMENT_DATA[i]["selectedOptions"].push(this.ELEMENT_DATA[i]["selectedItems"][k]["id"]);
-    }
+    }    
     
     var dict={};
     var obj={};  
@@ -327,6 +336,7 @@ export class RolesPanelComponent implements OnInit {
             if (response["success"]=="1") 
             {
             var obj={};
+            this.logger.log("CREATE","USER", new Date().toUTCString(),ele["email"] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > USERS",this.uploadedService.getOrgName() as string);
             obj["userId"]=response["admin"];
             obj["roleId"]= ele["selectedOptions"].join();            
             this.http.post('http://'+this.server+'/updateUserRole.php', JSON.stringify(obj), {
@@ -334,11 +344,13 @@ export class RolesPanelComponent implements OnInit {
             }).map(resp => {         
               this.spinner.hide();                        
               if (resp["success"]=="1") {
-                that.showError("User created successfully.",true);
+                that.showError("User "+ele["email"]+" created successfully.",true);
+                this.logger.debug("roles-panel.component.ts","CREATE USER SUCCESS",this.username as string,new Date().toUTCString());
                 that.initAll();
                 that.ngOnInit();
               }else{                
                 that.showError(resp["error"],false);
+                this.logger.error("roles-panel.component.ts","CREATE USER ERROR:"+resp["error"],this.username as string,new Date().toUTCString());                           
               }
             }).subscribe(r => {
               console.log(JSON.stringify(r));
@@ -347,6 +359,7 @@ export class RolesPanelComponent implements OnInit {
             else{
               this.spinner.hide(); 
               that.showError(response["error"],false);
+              this.logger.log("CREATE","USER", new Date().toUTCString(),ele["email"] as string,"FAIL",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > USERS",this.uploadedService.getOrgName() as string);
             }
            }).subscribe(res => {
              console.log(JSON.stringify(res));
@@ -368,8 +381,10 @@ export class RolesPanelComponent implements OnInit {
               this.http.post('http://'+this.server+'/updateUserEmail.php', JSON.stringify(temp), {
                 responseType: 'json'
               }).map(op => {
-                this.spinner.hide();                        
-                that.showError("User updated successfully.",true);
+                this.spinner.hide();                    
+                that.showError("User "+ele["email"]+" updated successfully.",true);
+                this.logger.log("UPDATE","USER", new Date().toUTCString(),ele["email"] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > USERS",this.uploadedService.getOrgName() as string);
+                this.logger.debug("roles-panel.component.ts","UPDATE USER SUCCESS",this.username as string,new Date().toUTCString());            
                 that.initAll();
                 that.ngOnInit();
               }).subscribe(r => {
@@ -415,6 +430,7 @@ export class RolesPanelComponent implements OnInit {
                     if (k!=response[each]["access"]){
                       if (this.free==true){                        
                         that.showError("You have a conflict in the selected roles - "+obj[k]+", "+this.ELEMENT_DATA[i]["selectedItems"][j]["itemName"]+". They both have a feature "+response[each]["feature"]+" with different access permissions.",false);
+                        this.logger.warn("roles-panel.component.ts","CONFLICT IN SELECTED ROLES",this.username as string,new Date().toUTCString());            
                         that.free=false;
                       }
                     }
@@ -447,19 +463,24 @@ export class RolesPanelComponent implements OnInit {
       }).map(resp => {
         this.spinner.hide();
         if (resp["success"]==1){
-          that.showError("User deleted successfully.",true);
+          that.showError("User "+this.ELEMENT_DATA[i]["email"]+" deleted successfully.",true);
+          this.logger.log("DELETE","USER", new Date().toUTCString(),this.ELEMENT_DATA[i]["email"] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > USERS",this.uploadedService.getOrgName() as string);
           that.initAll();
           that.ngOnInit();
+          this.logger.debug("roles-panel.component.ts","DELETE USER SUCCESS",this.username as string,new Date().toUTCString());            
         }else{
           that.showError(resp["error"],false);
+          this.logger.log("DELETE","USER", new Date().toUTCString(),this.ELEMENT_DATA[i]["email"] as string,"FAIL",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > USERS",this.uploadedService.getOrgName() as string);
+          this.logger.debug("roles-panel.component.ts","DELETE USER FAILED",this.username as string,new Date().toUTCString());            
         }
       }).subscribe(response => {
         console.log(response);
       });
     }
-    else {      
+    else {
       this.beginEdits.splice(i,1);
       this.ELEMENT_DATA.splice(i,1);
+      this.tempRow.splice(i,1);
       this.checkLink = (this.beginEdits.indexOf(true)>=0?false:true);       
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.paginator = this.paginator;  
@@ -469,21 +490,22 @@ export class RolesPanelComponent implements OnInit {
   }
 
   addUser(event){
-    if (this.ELEMENT_DATA[this.ELEMENT_DATA.length-1]["id"]!=""){
+    if (this.ELEMENT_DATA[0]["id"]!=""){
     var element = new Object();
     element["id"]='';
     element["roleNames"]=[];
     element["beginEdits"]=true;      
     element["selectedOptions"]=[];
-    element["selectedItems"]=[];        
-    this.tempRow.push([]);
-    this.beginEdits.push(true);
+    element["selectedItems"]=[];
+    
+    this.tempRow.unshift([]);
+    this.beginEdits.unshift(true);
     this.checkLink = (this.beginEdits.indexOf(true)>=0?false:true);      
-    this.ELEMENT_DATA.push(element as Element);
+    this.ELEMENT_DATA.unshift(element as Element);
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.paginator.lastPage();
+    this.paginator.firstPage();
     }
   }
 
@@ -496,7 +518,7 @@ export class RolesPanelComponent implements OnInit {
     this.tempRow[i][2]=this.ELEMENT_DATA[i]["selectedOptions"];
    } 
   
-  cancelChanges(event,i){   
+  cancelChanges(event,i){
     this.beginEdits[i]=!this.beginEdits[i];       
     this.ELEMENT_DATA[i]["beginEdits"]=!this.ELEMENT_DATA[i]["beginEdits"]; 
     this.checkLink = (this.beginEdits.indexOf(true)>=0?false:true);    
@@ -507,6 +529,10 @@ export class RolesPanelComponent implements OnInit {
       this.ELEMENT_DATA[i]["email"]=this.tempRow[i][0];   
       this.ELEMENT_DATA[i]["roleNames"]=this.tempRow[i][1];   
       this.ELEMENT_DATA[i]["selectedOptions"]=this.tempRow[i][2];   
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.paginator.firstPage();
     }
    }
 

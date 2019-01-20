@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  server: 'localhost'
+  server: 'localhost',
+  delimiter: '|',
+  level: 0
 };
 
 /*

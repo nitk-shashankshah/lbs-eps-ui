@@ -1,64 +1,16 @@
 <div class="wrapper">
 
-    <div class="header">
-        <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+    <div class="header">    
         <div class="logo">
-          CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES
-        </div> 
-        <ul class="header-right">      
-          <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
-            <div class="logout"><a routerLink="/logout">Logout</a></div>
-          </li>
-        </ul>
-    </div>
-    <!--
-  <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span> 
-          </button>       
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar" >
-        <ul class="nav navbar-nav">     
-            <li>
-                <a [routerLink]="checkLink ? '/dashboard' : null"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>            
-            </li>
-            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Features
-                <span class="caret"></span></a>
-                <ul class="dropdown-menu">              
-                  <li class="dropdown-submenu first-level" *ngIf='showLBS==true'>
-                    <a class="test" tabindex="-1" href="#">Location <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a [routerLink]="checkLink ? '/callibrate' : null" linkAttr="callibrate">Configuration</a></li>
-                      <li><a [routerLink]="checkLink ? '/display' : null" linkAttr="monitoring">Monitoring</a></li>
-                    </ul>
-                  </li>     
-                  <li class="dropdown-submenu first-level" *ngIf='showST==true'>
-                    <a class="test" tabindex="-1" href="#">Subscriber Tracing <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a [routerLink]="checkLink ? '/configuration' : null" linkAttr="configuration">Configuration</a></li>
-                        <li><a [routerLink]="checkLink ? '/tracing' : null"  linkAttr="tracing">Trace Results</a></li>                            
-                    </ul>
-                  </li>          
-                </ul>
-            </li> 
-          <li class="active" *ngIf='showAdmin==true'>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/roles' : null" linkAttr="roles">Roles</a></li>
-              <li *ngIf='showAdmin==true'><a [routerLink]="checkLink ? '/users' : null"  linkAttr="users">Users</a></li>
-              <li *ngIf='showAccounts==true && showAdmin==true'><a [routerLink]="checkLink ? '/super' : null" linkAttr="super">Tenants</a></li>
+          <a tabindex="-1" href="#" class="hamburger"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+          <div class="title">CLOUD MANAGEMENT FOR  RUCKUS NETWORK SERVICES</div>
+          <ul class="header-right">      
+              <li id="logoutBtn">{{username}}&nbsp;<a routerLink="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+              <div class="logout"><a routerLink="/logout">Logout</a></div>
+              </li>      
             </ul>
-          </li>     
-        </ul>   
-        </div>
+        </div> 
       </div>
-    </nav>  -->
-
 
   <div class="col-lg-12">
        <ul class="sideMenu">    
@@ -79,8 +31,8 @@
                     <span class="glyphicon glyphicon-map-marker"></span><br>
                     Location </a>
                   <ul class="dropdown-menu slide-menu"   style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
-                    <li><a [routerLink]="checkLink ? '/callibrate' : null" data-link="callibrate">Configuration</a></li>
-                    <li><a [routerLink]="checkLink ? '/display' : null" data-link="display">Monitoring</a></li>
+                    <li><a [routerLink]="checkLink ? '/callibrate' : null" data-link="callibrate"> <span class="glyphicon glyphicon-cog"></span> Configuration</a></li>
+                    <li><a [routerLink]="checkLink ? '/display' : null" data-link="display">	<span class="glyphicon glyphicon-globe"></span> Monitoring</a></li>
                   </ul>
                 </li>     
                 <li class="dropdown-submenu" *ngIf='showST==true'>
@@ -88,8 +40,8 @@
                   <span class="glyphicon glyphicon-phone"></span><br>
                   Subs. Tracing</a>
                   <ul class="dropdown-menu slide-menu"  style="text-align:left;position:absolute!important;float:left!important;background:#000!important;">
-                    <li><a [routerLink]="checkLink ? '/configuration' : null" data-link="configuration">Configuration</a></li>
-                    <li><a [routerLink]="checkLink ? '/tracing' : null" data-link="tracing">Trace Results</a></li>                            
+                    <li><a [routerLink]="checkLink ? '/configuration' : null" data-link="configuration"> <span class="glyphicon glyphicon-cog"></span> Configuration</a></li>
+                    <li><a [routerLink]="checkLink ? '/tracing' : null" data-link="tracing"> <span class="glyphicon glyphicon-phone"></span> Trace Results</a></li>                            
                   </ul>
                 </li>          
               </ul>
@@ -119,12 +71,12 @@
                  
                 <ng-container matColumnDef="id">
                       <mat-header-cell *matHeaderCellDef mat-sort-header> #</mat-header-cell>
-                      <mat-cell *matCellDef="let element; let i= dataIndex;"> {{i+1}} </mat-cell>
+                      <mat-cell *matCellDef="let element; let i= dataIndex;" class="align-top"> {{i+1}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="org">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Name</mat-header-cell>
-                  <mat-cell *matCellDef="let element">
+                  <mat-cell *matCellDef="let element" class="align-top">
                       <span *ngIf="element.id; else newOrg">{{element.org}}</span>
                       <ng-template #newOrg>
                           <input type="text" class="form-control" value="{{element.org}}"  [(ngModel)]="element.org">
@@ -134,7 +86,7 @@
                
                 <ng-container matColumnDef="admin">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Admin</mat-header-cell>
-                  <mat-cell *matCellDef="let element;">
+                  <mat-cell *matCellDef="let element;" class="align-top">
                   <span *ngIf="element.id!=''"> {{element.admin}} </span>
                   <input *ngIf="element.id==''" type="text" class="form-control" value="{{element.admin}}"  [(ngModel)]="element.admin">
                 </mat-cell>
@@ -142,10 +94,20 @@
 
                 <ng-container matColumnDef="showGroups">                 
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Groups</mat-header-cell>
-                    <mat-cell *matCellDef="let element">                      
+                    <mat-cell *matCellDef="let element" class="align-top">                      
+                      <table border="0" width="100%">
+                      <tr>
+                        <td>
                         <button *ngIf="element.showGroups && element.id!=''" class="btn btn-primary btnViewGrps" data-toggle="modal" data-target="#groupModal" (click)="viewGroups(element.id,ELEMENT_DATA.indexOf(element))" type="button">View</button>
-                        <button *ngIf="element.showGroups && element.id==''" class="btn btn-primary btn-info" data-toggle="modal" data-target="#newGroupModal"  (click)="viewNewGroups(ELEMENT_DATA.indexOf(element))" type="button">+</button>
+                        <button *ngIf="element.showGroups && element.id==''" class="btn btn-primary btn-info" data-toggle="modal" data-target="#newGroupModal"  (click)="viewNewGroups(ELEMENT_DATA.indexOf(element))" type="button" style="margin-top:5px;">+/-</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
                         <p *ngIf="element.showGroups && element.id==''"><span *ngFor="let gr of grps[ELEMENT_DATA.indexOf(element)];"><br>{{gr}}</span></p>
+                        </td>
+                      </tr>
+                      </table>
                     </mat-cell>
                 </ng-container>
 
@@ -160,10 +122,10 @@
                 </ng-container>
 
                 <ng-container matColumnDef="selectedOptions">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Features</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef>Features</mat-header-cell>
                   <mat-cell *matCellDef="let element;">
                     <span *ngIf="!element.beginEdits || element.isSuperUser">{{element.selectedOptions}}</span>
-                    <angular4-multiselect [data]="dropdownList"  [(ngModel)]="element.selectedItems" *ngIf="element.beginEdits && !element.isSuperUser"
+                    <angular4-multiselect [data]="dropdownList" [(ngModel)]="element.selectedItems" *ngIf="element.beginEdits && !element.isSuperUser"
                     [settings]="dropdownSettings"
                     (onSelect)="onItemSelect($event,ELEMENT_DATA.indexOf(element))" 
                     (onDeSelect)="OnItemDeSelect($event,ELEMENT_DATA.indexOf(element))"
@@ -173,7 +135,7 @@
                 </ng-container>
               
                 <ng-container matColumnDef="beginEdits">
-                    <mat-header-cell *matHeaderCellDef  mat-sort-header>Reset</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef>Reset</mat-header-cell>
                     <mat-cell *matCellDef="let element; ">                    
                     <button class="btn btn-success" value="Reset Password" (click)="resetPassword($event,element.admin)"><i class="fa fa-unlock"></i></button>
                     </mat-cell>
@@ -184,59 +146,7 @@
                 </mat-row>
                 
               </mat-table>
-              <mat-paginator [length]=totalEntries [pageSize]=pageSize [pageSizeOptions]="pageSizeOptions"></mat-paginator>
-                
-              <!--<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Account Name</th>
-      <th scope="col">Primary Administrator</th>
-      <th scope="col">Licensed Features</th>
-      <th scope="col">Groups</th>
-      <th scope="col">Reset Password</th>      
-      <th scope="col">Actions</th>          
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let org of allOrgs; let i = index; trackBy: customTrackBy" class="clickable-row">
-      <th scope="row" style="width:5%">{{i+1}}</th>
-      <td style="width:15%">
-        <span *ngIf="allOrgIds[i]; else newOrg">{{org}}</span>   
-        <ng-template #newOrg>
-            <input type="text" class="form-control" value="{{org}}"  [(ngModel)]="allOrgs[i]">
-        </ng-template>
-      </td>  
-      <td style="width:20%">        
-          <span *ngIf="!beginEdits[i] || users[i].length>0">{{allOrgAdmins[i]}}</span>          
-          <input *ngIf="beginEdits[i] && users[i].length==0" type="text" class="form-control" value="{{allOrgAdmins[i]}}"  [(ngModel)]="allOrgAdmins[i]">
-      </td>
-      <td style="width:30%">
-        <span *ngIf="!beginEdits[i] || superUserList[i]">{{selectedOptions[i]}}</span>
-        <angular4-multiselect [data]="dropdownList"  [(ngModel)]="selectedItems[i]" *ngIf="beginEdits[i] && !superUserList[i]"
-        [settings]="dropdownSettings"
-        (onSelect)="onItemSelect($event,i)" 
-        (onDeSelect)="OnItemDeSelect($event,i)"
-        (onSelectAll)="onSelectAll($event,i)"
-        (onDeSelectAll)="onDeSelectAll($event,i)"></angular4-multiselect>
-      </td>
-      <td style="width:10%">
-      <button *ngIf="showGroups[i] && allOrgIds[i]!=''" class="btn btn-primary btnViewGrps" data-toggle="modal" data-target="#groupModal" (click)="viewGroups(allOrgIds[i],i)" type="button">View</button>      
-      <button *ngIf="showGroups[i] && allOrgIds[i]==''" class="btn btn-primary btn-info" data-toggle="modal" data-target="#newGroupModal"  (click)="viewNewGroups(i)" type="button">+</button>      
-      <p *ngIf="showGroups[i] && allOrgIds[i]==''"><span *ngFor="let gr of grps[i];"><br>{{gr}}</span></p>  
-      </td>
-      <td style="width:10%">
-          <button class="btn btn-success" value="Reset Password" (click)="resetPassword($event,i)"><i class="fa fa-unlock"></i></button>
-      </td>
-      <td style="width:10%"> 
-        <button class="btn btn-warning" *ngIf="!beginEdits[i]" value="Edit" (click)="editOrg($event,i)"><i class="fa fa-edit"></i></button>
-        <button class="btn btn-warning" *ngIf="beginEdits[i]" value="Save" (click)="saveOrg(i)"><i class="fa fa-save"></i></button>
-        &nbsp;<button class="btn btn-danger" *ngIf="!beginEdits[i] && !superUserList[i]" value="Delete" (click)="deleteOrg($event,i)"><i class="fa fa fa-trash"></i></button>
-        <button class="btn btn-danger" *ngIf="beginEdits[i]" value="Cancel" (click)="cancelChanges($event,i)"><i class="fa fa-remove"></i></button>
-      </td>      
-    </tr>    
-  </tbody>
-</table>-->
+              <mat-paginator [length]=totalEntries [pageSize]=pageSize [pageSizeOptions]="pageSizeOptions"></mat-paginator>          
 
 <button class="btn btn-primary" value="Create Account" (click)="addOrganization($event)">Create Accounts</button>
 </div>

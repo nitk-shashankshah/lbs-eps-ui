@@ -12,6 +12,8 @@ import { MatSort } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {SelectionModel} from '@angular/cdk/collections';
+import { LoggerService } from '../logger.service';
+
 
 const initialSelection = [];
 const allowMultiSelect = true;
@@ -80,6 +82,7 @@ export class StConfigurationComponent implements OnInit {
     private router: Router,
     private http: HttpClient,    
     private spinner: NgxSpinnerService,
+    private logger: LoggerService,
     private uploadedService : UploadedFloorPlanService) {};
     device:number = 1;
 
@@ -106,10 +109,12 @@ export class StConfigurationComponent implements OnInit {
     this.spinner.show();
     this.grps=[];
     this.configuredGroup = this.uploadedService.getGroup();
+       
     this.http.post('http://'+this.server+'/listGroups.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
         this.spinner.hide();      
+        this.logger.debug("st-configuration.component.ts","LIST GROUPS SUCCESS",this.username as string,new Date().toUTCString());            
         for (var each in response){                         
           that.grps=response[each];   
           if (this.allowConf==false)            
@@ -144,13 +149,15 @@ export class StConfigurationComponent implements OnInit {
           $AB(".sideMenu").slideToggle();              
         }
       });
-
+      
       $AB(document).click(function(event) {
         if (!$(event.target).hasClass('logout')) {
              $(".logout").hide();
         }
         if (!$(event.target).hasClass('.slide-menu')) {
-          $(".slide-menu").hide();
+          $AB(".slide-menu").css('width','0px');
+          $AB('.dropdown-submenu a.test').css('color','#888888');
+          $AB('.dropdown-submenu a.active').css("color","#fff");    
         }
       });
 
@@ -167,48 +174,49 @@ export class StConfigurationComponent implements OnInit {
         $AB('.first-level > .dropdown-menu').hide();
       });
 
+      $AB('.dropdown-submenu a.active').css("color","#fff");      
+
       $AB('.dropdown-submenu a.test').on("click", function(e){
-        $AB("a.test").css("color","#888888");              
+        $AB("a.test").css("color","#888888");            
+        $AB(".slide-menu").css('width','0px');  
         $AB(this).css("color","#fff");
-        $AB(this).next('ul').toggle();              
+        
+        $AB('.dropdown-submenu a.active').css("color","#fff");      
+      
+        $AB(this).next('ul').css('width','150px');       
         e.stopPropagation();
         e.preventDefault();
-      });     
-            
-      $AB('a.dropdown-toggle').off('click').on('click',function(e){        
-        $AB("a.test").next(".dropdown-menu").hide();
       });
-
-    });    
+    });
 
     var that=this;
 
     if (that.configuredGroup!=""){
     this.spinner.show();    
+        
+    this.logger.log("LIST IMSI","SUBSCRIBER TRACING CONFIGURATION", new Date().toUTCString(),that.uploadedService.getGroup() as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"SUBS. TRACING > CONFIGURATION",this.uploadedService.getOrgName() as string);
+
     this.http.get('http://10.150.76.45:8080/hssImsiList?toggle=0&grp='+that.configuredGroup).map((response)  => {
     that.spinner.hide();
     ELEMENT_DATA = [];
     
     if (response!=null && !response.hasOwnProperty("Error")){
     this.noDataFound=false;
-    for (var k in response["IMSI_DATA"]){
+    this.logger.debug("st-configuration.component.ts","LIST IMSI SUCCESS",this.username as string,new Date().toUTCString());
+
+    for (var k in response["IMSI_DATA"]){        
         var temp=response["IMSI_DATA"][k];
-        temp["msg"]="No msg";  
-        temp["isAnalysisAvailable"]="";
-        if (that.analysisIMSIs.indexOf(temp.imsiid.toString())>=0){
-           temp["isAnalysisAvailable"]="Available";
-        }
+        temp["msg"]="No msg";         
         ELEMENT_DATA.push(temp);
         that.totalEntries = response["PAGE_INFO"]["total_imsi"];
         that.pageSize = response["PAGE_INFO"]["imsi_per_page"];
         that.pages = response["PAGE_INFO"]["total_pages"];
-    }   
+    }       
     }else{
       this.noDataFound=true;
-      this.errorMsg=response["Error"];
+      this.errorMsg=response["Error"];    
     }
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
     }).subscribe((data) => console.log(data));     
     }   
   }
@@ -230,9 +238,13 @@ export class StConfigurationComponent implements OnInit {
     this.uploadedService.setGroup(this.configuredGroup);
     var that=this;    
     this.spinner.show();
-    this.http.get('http://10.150.76.45:8080/hssImsiList?toggle=0&grp='+that.uploadedService.getGroup()).map((response)  => {    
+    this.http.get('http://10.150.76.45:8080/hssImsiList?toggle=0&grp='+that.uploadedService.getGroup()).map((response)  => {
     this.spinner.hide();
     ELEMENT_DATA = [];    
+    
+    this.logger.log("GROUP CHANGE","SUBSCRIBER TRACING CONFIGURATION", new Date().toUTCString(),that.uploadedService.getGroup() as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"SUBS. TRACING > CONFIGURATION",this.uploadedService.getOrgName() as string);
+    this.logger.debug("st-configuration.component.ts","CHANGE GROUP SUCCESS",this.username as string,new Date().toUTCString());
+
     if (response!=null && !response.hasOwnProperty("Error")){
     this.noDataFound=false;
     for (var k in response["IMSI_DATA"]){
@@ -245,6 +257,7 @@ export class StConfigurationComponent implements OnInit {
     }else{
       this.noDataFound=true;      
       this.errorMsg=response["Error"];
+      this.logger.debug("st-configuration.component.ts","CHANGE GROUP FAILED",this.username as string,new Date().toUTCString());
     }
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     }).subscribe((data) => console.log(data));
@@ -287,65 +300,22 @@ export class StConfigurationComponent implements OnInit {
       }).subscribe();
       }
     );*/
+    
+    this.logger.debug("st-configuration.component.ts","TOGGLE IMSI STATUS",this.username as string,new Date().toUTCString());
 
     this.http.get('http://10.150.76.45:8080/hssImsiList?toggle=1&grp='+this.uploadedService.getGroup()+"&imsi="+imsi+"&status="+state,{responseType:"text"}).map(res  => {
         var parser = new DOMParser();
         var xmlDoc = parser.parseFromString(res.toString().replace("\n","").replace("\r","").trim(),"text/xml");   
         this.spinner.hide();
         this.showError("Subscriber status change: "+xmlDoc.getElementsByTagName("status")[0].childNodes[0].nodeValue,true);        
+        this.logger.debug("st-configuration.component.ts","TOGGLE IMSI STATUS SUCCESS",this.username as string,new Date().toUTCString());
+        this.logger.log("IMSI STATUS CHANGE","SUBSCRIBER TRACING CONFIGURATION", new Date().toUTCString(),imsi as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"SUBS. TRACING > CONFIGURATION",this.uploadedService.getOrgName() as string);
     }).subscribe(
     );
   }
  
   changePage(event){
-    /*this.http.get('https://10.10.10.47/db_access/grp?=ruckus/page?='+(event.pageIndex+1)).
-    map((response)  => {
-    ELEMENT_DATA = [];
-    for (var k in response["IMSI_DATA"]){
-        ELEMENT_DATA.push(response["IMSI_DATA"][k]); 
-    }          
-    this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-    }).subscribe((data) => console.log(data));*/    
 
-    /*if (this.currentPageSize!=event.pageSize){
-        let splicedData = Object.assign([], ELEMENT_DATA);    
-        this.dataSource = new MatTableDataSource(splicedData.splice(0,event.pageSize));    
-        this.currentPageSize=event.pageSize;
-        this.paginator._pageIndex = this.currentPageIndex;
-    }
-    else if (this.currentPageIndex!=event.pageIndex){
-        var that=this;
-
-        this.http.get('http://10.150.76.45:8080/hssImsiList').map((response)  => {
-          ELEMENT_DATA = [];
-      
-          for (var k in response["IMSI_DATA"]){                   
-              var temp=response["IMSI_DATA"][k];       
-              temp["msg"]="No msg";       
-              ELEMENT_DATA.push(temp);              
-              that.totalEntries = response["PAGE_INFO"]["total_imsi"];
-              that.pageSize = response["PAGE_INFO"]["imsi_per_page"];
-              that.pages = response["PAGE_INFO"]["total_pages"];
-
-              that.pageSizeOptions=[];
-              if (that.pageSize%4==0)
-               that.pageSizeOptions.push(that.pageSize/4);
-              if (that.pageSize%3==0)
-               that.pageSizeOptions.push(that.pageSize/3);
-              if (that.pageSize%2==0)
-               that.pageSizeOptions.push(that.pageSize/2);
-               
-              that.pageSizeOptions.push(that.pageSize);
-              that.currentPageSize=that.pageSize;        
-          }          
-          this.currentPageIndex = event.pageIndex;
-          let splicedData = Object.assign([], ELEMENT_DATA);
-          this.dataSource = new MatTableDataSource(splicedData.splice(0,event.pageSize));        
-          this.currentPageSize = event.pageSize;
-
-          this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-        }).subscribe((data) => console.log(data));
-    }*/
   }
 }
 

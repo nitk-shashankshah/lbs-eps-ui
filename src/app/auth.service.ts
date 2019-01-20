@@ -26,34 +26,27 @@ export class AuthService {
 		obj["email"]=e;
 		obj["password"]=p;
 		var that=this;
-
-		console.log(JSON.stringify(obj));
-
 		return this.http.post('http://'+that.server+'/auth.php',JSON.stringify(obj), {
 			responseType: 'json'
 		}).map(response => {
-				if (response["auth"] == "1") {
-					that.uploadedFloorPlanService.setLoggedIn(true);					
+			    if (response["auth"] == "1") {
+					that.uploadedFloorPlanService.setLoggedIn(true);
 					that.uploadedFloorPlanService.setOrgId(response["org"]);
 					that.uploadedFloorPlanService.setGroup("");
 					that.uploadedFloorPlanService.setUser(response["user"]);
 					that.uploadedFloorPlanService.setLastLogin(response["last_activity"]);
-					that.uploadedFloorPlanService.setTotalLogins(response["counter"]);					
+					that.uploadedFloorPlanService.setTotalLogins(response["counter"]);
+					that.uploadedFloorPlanService.setRoleName(response["role"]);
+					that.uploadedFloorPlanService.setOrgName(response["org_name"]);
 					sessionStorage.setItem("username",e);
-					return true;					  					  
+					return true;
 				} else {
 					sessionStorage.removeItem("username");					
 					return false;
 				}
 			}).catch(() => {
-				sessionStorage.removeItem("username");
+				    sessionStorage.removeItem("username");
 				    return Observable.of(false);
 			});
-	}
-
-	logout(): void {
-		var that =this;
-		sessionStorage.removeItem("username");
-		this.uploadedFloorPlanService.setLoggedIn(false);				
-	}		
+	}	
 }

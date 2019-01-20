@@ -145,7 +145,10 @@ export class ConfigAccessPointsComponent implements OnInit {
     }
 
     $AB(document).ready(function(){
-
+      $AB('.first-level > a.test').on("click", function(e){
+        $AB('.first-level > .dropdown-menu').hide();
+      });     
+      
       $AB("#logoutBtn a").off('mouseover').on('mouseover',function(){
         $AB(".logout").show();
       });
@@ -162,30 +165,29 @@ export class ConfigAccessPointsComponent implements OnInit {
           $AB(".sideMenu").slideToggle();              
         }
       });
-      $AB(document).click(function(event) {
-        if (!$(event.target).hasClass('logout')) {
-             $(".logout").hide();
+      
+      $AB(document).click(function(event){
+        if (!$AB(event.target).hasClass('logout')) {
+          $AB(".logout").hide();
         }
-        if (!$(event.target).hasClass('.slide-menu')) {
-          $(".slide-menu").hide();
+
+        if (!$AB(event.target).hasClass('.slide-menu')) {          
+          $AB(".slide-menu").css('width','0px!important');
+          $AB('.dropdown-submenu a.test').css('color','#888888');
+          $AB('.dropdown-submenu a.active').css("color","#fff");    
         }
       });
 
-      $AB('.first-level > a.test').on("click", function(e){
-        $AB('.first-level > .dropdown-menu').hide();
-      });
+      $AB('.dropdown-submenu a.active').css("color","#fff");      
 
       $AB('.dropdown-submenu a.test').on("click", function(e){
-        $AB("a.test").css("color","#888888");              
+        $AB("a.test").css("color","#888888");            
+        $AB(".slide-menu").css('width','0px');  
         $AB(this).css("color","#fff");
-        $AB(this).next('ul').toggle();              
+        $AB(this).next('ul').css('width','150px');       
         e.stopPropagation();
         e.preventDefault();
-      });     
-            
-      $AB('a.dropdown-toggle').off('click').on('click',function(e){        
-        $AB("a.test").next(".dropdown-menu").hide();
-      });
+      });             
 
     });  
   }

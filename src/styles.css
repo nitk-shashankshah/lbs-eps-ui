@@ -10,3 +10,9 @@ body
     background-attachment: fixed!important;
     background-size: cover;
 }
+*{
+    font-size: 12px;
+}
+a{
+    outline:none!important;
+}

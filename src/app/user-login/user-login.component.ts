@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'; 
+import { LoggerService } from '../logger.service';
 
 @Component({
   selector: 'app-user-login',
@@ -21,18 +22,18 @@ export class UserLoginComponent implements OnInit {
   loginFailed=false;
   public server = environment.server;
 
-  constructor(private authService: AuthService, private http: HttpClient, private router: Router, private uploadedService: UploadedFloorPlanService) {}
+  constructor(private authService: AuthService, private http: HttpClient, private router: Router, private uploadedService: UploadedFloorPlanService,private logger : LoggerService) {}
   
   onSubmit(form: any): void {
     var that=this;
     if (this.validateEmail(form.email)){
 		  this.authService.login(form.email, form.pass).subscribe(auth => {
 		    if(auth) {
-          that.router.navigate(['/dashboard']);					
+          that.router.navigate(['/dashboard']);
           that.loginFailed=false;
         }else{
           that.loginMsg="Sorry, you have entered an invalid username or password!"
-          that.loginFailed=true;
+          that.loginFailed=true;          
         }
       });
     }

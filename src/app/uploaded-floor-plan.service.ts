@@ -156,6 +156,20 @@ export class UploadedFloorPlanService {
     sessionStorage.setItem('showRoles',x);
   }
 
+  getRoleName(){
+    return sessionStorage.getItem('roleName');
+  }
+  setRoleName(x){
+    sessionStorage.setItem('roleName',x);
+  }
+
+  getOrgName(){
+    return sessionStorage.getItem('orgName');
+  }
+  setOrgName(x){
+    sessionStorage.setItem('orgName',x);
+  }
+
   getAllowConf(){
     return sessionStorage.getItem('allowConf');
   }
