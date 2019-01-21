@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { FloorPlanComponent } from './floor-plan/floor-plan.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

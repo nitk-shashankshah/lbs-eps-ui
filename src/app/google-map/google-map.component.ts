@@ -1,8 +1,7 @@
 import { Component, OnInit, Input,Output,EventEmitter,SimpleChanges} from '@angular/core';
-
 import { FormControl } from '@angular/forms';
 import { ElementRef, NgZone, ViewChild } from '@angular/core';
-//import { } from  '@types/googlemaps';
+import { } from '@types/googlemaps';
 import { MapsAPILoader } from '@agm/core';
 import { MouseEvent as AGMMouseEvent } from '@agm/core';
 import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
@@ -80,7 +79,6 @@ export class GoogleMapComponent implements OnInit {
         this.ngZone.run(() => {
           //get the place result
           let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
           //verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
