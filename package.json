@@ -25,6 +25,7 @@
     "@angular/router": "^6.1.0",
     "@types/jquery": "^3.3.10",
     "angular-4-data-table": "^0.4.6",
+    "angular-bootstrap-md": "^7.3.0",
     "angular4-multiselect-dropdown": "^2.0.0",
     "angular5-data-table": "^1.0.3",
     "bootstrap": "^3.3.7",

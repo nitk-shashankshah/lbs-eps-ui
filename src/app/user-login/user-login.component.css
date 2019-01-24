@@ -1,3 +1,6 @@
+.form-control{
+    padding:20px 10px!important;
+}
 
 .form-signin
 {
@@ -136,9 +139,25 @@ input[type=button]{
     background: #7596af;
     float:right;
 }
-
+.text-success{
+    display:none;
+}
+.text-danger{
+    display:none;
+}
 .row{
     min-height:600px;    
+    margin:0px!important;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+  
+.example-full-width {
+    width: 100%;
 }
 
 .pure-button{

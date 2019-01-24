@@ -13,11 +13,35 @@
 			<div class="panel-body">			
 			<h4 style="float:left;">Login</h4>
             <hr style="clear:both;">
-            <form class="form-signin" #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+ 
+			<form [formGroup]="validatingForm" #f="ngForm" (ngSubmit)="onSubmit(f.value)">
 				<div class="alert alert-danger" *ngIf="loginFailed">{{loginMsg}}</div>
-				<input type="email" class="form-control" placeholder="Email" required autofocus name="email" ngModel >
-				<input type="password" class="form-control" placeholder="Password" required name="pass" ngModel>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+				<mdb-error *ngIf="validatingForm.controls['email'].touched">									
+					<div class="alert alert-warning" *ngIf="validatingForm.controls['email'].errors?.email">Please provide a valid email.</div>
+					<div class="alert alert-warning" *ngIf="validatingForm.controls['email'].errors?.required">Please provide an email.</div>
+				</mdb-error>
+
+				<mdb-error *ngIf="validatingForm.controls['pass'].touched">				
+					<div class="alert alert-warning" *ngIf="validatingForm.controls['pass'].errors?.required">Please provide a password.</div>
+				</mdb-error>
+				
+				<div class="md-form" style="padding: 10px 0px;">
+					<input type="email" style="padding:20px 10px!important;" mdbInputDirective  id="emailId" class="form-control" data-error="" data-success="" formControlName="email">
+				</div>
+				
+				<div class="md-form" style="padding: 10px 0px;">
+					<input style="padding:20px 10px!important;" mdbInputDirective  type="password" id="pwd" class="form-control" data-error="" data-success="" formControlName="pass">
+				</div>
+				
+				<mdb-success *ngIf="(!validatingForm.controls['email'].touched && !validatingForm.controls['pass'].touched) || (!validatingForm.controls['email'].errors?.email && !validatingForm.controls['email'].errors?.required && !validatingForm.controls['pass'].errors?.required);else elseBlock">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+				</mdb-success>
+
+				<ng-template #elseBlock>
+					<button class="btn btn-lg btn-primary btn-block" type="submit" disabled="true">Sign In</button>					
+				</ng-template>
+				
 				<a routerLink="/reset" style="line-height: 24px;float:right;margin-top:10px;">Forgot Password?</a>
 			</form>
 			</div>

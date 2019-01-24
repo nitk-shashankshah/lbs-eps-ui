@@ -5,9 +5,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
+import { FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'; 
 import { LoggerService } from '../logger.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user-login',
@@ -21,24 +23,38 @@ export class UserLoginComponent implements OnInit {
   loginMsg="";
   loginFailed=false;
   public server = environment.server;
-
-  constructor(private authService: AuthService, private http: HttpClient, private router: Router, private uploadedService: UploadedFloorPlanService,private logger : LoggerService) {}
+  validatingForm: FormGroup;
+ 
+  constructor(private authService: AuthService, private http: HttpClient, private router: Router, private uploadedService: UploadedFloorPlanService,private logger : LoggerService,private fb: FormBuilder,private spinner: NgxSpinnerService) {
+    this.validatingForm = fb.group({
+      'email': [null,[Validators.required, Validators.email]],
+      'pass': [null, Validators.required],
+    });
+  }
   
   onSubmit(form: any): void {
-    var that=this;
-    if (this.validateEmail(form.email)){
-		  this.authService.login(form.email, form.pass).subscribe(auth => {
+    var that=this;      
+    
+    if (form.email==null || form.pass==null){
+      that.loginMsg="Sorry, you have not provided the username or password!"
+      that.loginFailed=true;   
+    }
+    else
+    { 
+      this.spinner.show();
+	    this.authService.login(form.email, form.pass).subscribe(auth => {
+        this.spinner.hide();
 		    if(auth) {
           that.router.navigate(['/dashboard']);
           that.loginFailed=false;
-        }else{
+        } else {
           that.loginMsg="Sorry, you have entered an invalid username or password!"
           that.loginFailed=true;          
         }
-      });
-    }
+      }); 
+    }     
   }
-  
+
   ngOnInit() {
     if (sessionStorage.username) {
       this.router.navigate(['/dashboard']);					    

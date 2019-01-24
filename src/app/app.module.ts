@@ -28,6 +28,7 @@ import { MatInputModule, MatTableModule, MatToolbarModule, MatSortModule } from 
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MDBBootstrapModule  } from 'angular-bootstrap-md';
 import { StConfigurationComponent } from './st-configuration/st-configuration.component';
 import { PathLocationStrategy,HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -49,7 +50,7 @@ import { environment } from '../environments/environment';
     ConfirmPasswordComponent,
     RolesPanelComponent,
     SubscriberTracingComponent,
-    StConfigurationComponent    
+    StConfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +66,7 @@ import { environment } from '../environments/environment';
     MatTableModule,
     ChartsModule,
     MatCheckboxModule,
+    MDBBootstrapModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
     //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),  
