@@ -21,6 +21,10 @@
     padding-bottom:25px;
   }
   
+  .selected-list[_ngcontent-c9] .c-btn[_ngcontent-c9]{
+    box-shadow: none !important;
+  }
+
   .backdrop{ 
     background-color:rgba(0,0,0,0.6);
     position:fixed;

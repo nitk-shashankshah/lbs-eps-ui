@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
+
 export class ResetPasswordComponent implements OnInit {
   public isReset:number=1;
   validatingForm: FormGroup;
@@ -55,12 +56,9 @@ export class ResetPasswordComponent implements OnInit {
 				}
    	}).subscribe(response => {
        console.log(response);
-    });
-    
+    });    
   }
-
   ngOnInit() {
 
   }
-
 }

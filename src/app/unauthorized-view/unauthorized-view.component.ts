@@ -5,7 +5,6 @@ import { AuthService } from '../auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
 import { LoggerService } from '../logger.service';
-
 import { environment } from '../../environments/environment'; 
 import * as $AB from 'jquery/dist/jquery.min.js';
 
@@ -28,6 +27,9 @@ export class UnauthorizedViewComponent implements OnInit {
   public orgId:String="";
   public orgName:String="";
   public totalLogins:Number=0;
+  public allUsers=[];
+  public lastLogins=[];
+
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true,    
@@ -42,7 +44,7 @@ export class UnauthorizedViewComponent implements OnInit {
         },
         scaleLabel: {
           display: true,
-          labelString: 'Number of Users'
+          labelString: 'Number of Logins'
         },
         labels: {
           show: true
@@ -60,7 +62,7 @@ export class UnauthorizedViewComponent implements OnInit {
       xAxes: [{
         scaleLabel: {
           display: true,
-          labelString: 'Number of Logins'
+          labelString: 'Users'
         }
       }]
     }
@@ -112,16 +114,8 @@ export class UnauthorizedViewComponent implements OnInit {
   public barChartLabels1:string[] = [];
   public barChartType1:string = 'bar';
   public barChartLegend1:boolean = true;
-  
-  public barChartData1:any[] = [
-    {data: [], label: ''}
-  ];
 
-  public barChartLabels2:string[] = [];
-  public barChartType2:string = 'bar';
-  public barChartLegend2:boolean = true;
- 
-  public barChartData2:any[] = [
+  public barChartData1:any[] = [
     {data: [], label: ''}
   ];
 
@@ -129,7 +123,7 @@ export class UnauthorizedViewComponent implements OnInit {
   public doughnutChartData:number[] = [];
   public doughnutChartType:string = 'doughnut';
  
-  public doughnutChartColors: any[] = [{ backgroundColor: ["#ff8605", "#7aad02", "#a4c73c", "#a4add3"] }];
+  public doughnutChartColors: any[] = [{ backgroundColor: ["#88d753", "#ff5656","#ff8605", "#7aad02"] }];
 
   public chartClicked(e:any):void {
     console.log(e);
@@ -335,6 +329,9 @@ export class UnauthorizedViewComponent implements OnInit {
   
   fillGraphData(orgId){
     var that=this;    
+    that.lastLogins=[];
+    that.allUsers=[];
+
     that.http.post('http://'+that.server+'/listUsers.php?org_id='+orgId,  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
@@ -342,14 +339,26 @@ export class UnauthorizedViewComponent implements OnInit {
         var no_of_times={};
         var last_activity_obj={};
 
-         var counter_dict={};
-         var last_activity_dict={};
-         for (var ind in response){
-          counter_dict[response[ind]["email_addr"]]=response[ind]["counter"];       
-          last_activity_dict[response[ind]["email_addr"]]=response[ind]["last_activity"]; 
-         }
+        var data=[];        
+        var counter_dict={};
+        var last_activity_dict={};
+        that.barChartLabels1.splice(0,that.barChartLabels1.length);
 
+        for (var ind in response){
+          counter_dict[response[ind]["email_addr"]]=response[ind]["counter"];
+          last_activity_dict[response[ind]["email_addr"]]=response[ind]["last_activity"];
+          that.barChartLabels1.push(response[ind]["email_addr"]);
+          data.push(response[ind]["counter"]);
+          
+          that.allUsers.push(response[ind]["email_addr"]);
+          that.lastLogins.push(response[ind]["last_activity"]);
+        }
 
+        let clone = JSON.parse(JSON.stringify(that.barChartData1));
+        clone[0].data = data;
+        that.barChartData1 = clone;         
+        
+        
         for (var each in counter_dict){
             if (no_of_times.hasOwnProperty(counter_dict[each])){
               no_of_times[counter_dict[each]]=no_of_times[counter_dict[each]]+1;
@@ -362,31 +371,8 @@ export class UnauthorizedViewComponent implements OnInit {
             } else{
               last_activity_obj[last_activity_dict[each]]=1;
             }
-        }                                        
-        var data=[];
-        var i=0;
-        for (var k in no_of_times){
-            that.barChartLabels1[i]=k;
-            data.push(parseInt(no_of_times[k]));
-            i++;
         }
-        that.barChartLabels1.splice(i,that.barChartLabels1.length);
-        
-        let clone = JSON.parse(JSON.stringify(that.barChartData1));
-        clone[0].data = data;
-        that.barChartData1 = clone;
 
-        var data=[];
-        var i=0;
-        for (var k in last_activity_obj){
-            that.barChartLabels2[i]=k;
-            data.push(parseInt(last_activity_obj[k]));
-            i++;
-        }
-        that.barChartLabels2.splice(i,that.barChartLabels2.length);
-        clone = JSON.parse(JSON.stringify(that.barChartData2));
-        clone[0].data = data;
-        that.barChartData2 = clone;
 
     }).subscribe(re => {
       console.log(re);
