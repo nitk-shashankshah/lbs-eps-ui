@@ -56,7 +56,7 @@
                 <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a  routerLink="/super" linkAttr="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
               </ul>            
             </li>
-            </ul>          
+      </ul>          
 
 
       <div class="panel-group">
@@ -67,13 +67,13 @@
             <hr style="clear:both;">                          
                   <div class="row" style="padding:0px 20px;box-sizing:border-box;">                  
                   <div class="col-lg-12">
-                  <div class="alert alert-success">Welcome {{username}} to Ruckus Network Services.</div>
+                  <div class="alert alert-success">Welcome {{username}} to Ruckus Network Services. Click <a routerLink="/confirm">here</a> to change your password.</div>
                   </div>
                   </div>
                   <div class="row" *ngIf='showAccounts==true && showAdmin==true' style="padding:0px 20px;box-sizing:border-box;">   
                   <div class="col-lg-8">
                       <h4>Number of accounts</h4> 
-                      <h1 style="text-align:center;">{{allAccounts}}</h1>
+                      <h1 style="text-align:center;padding-top:30px;padding-bottom:30px;">{{allAccounts}}</h1>
                   </div>                                                   
                   <div class="col-lg-4" >
                       <h4>Feature wise tenants</h4>
@@ -88,23 +88,23 @@
                   </div>                                                       
                   <hr *ngIf='showAccounts==true && showAdmin==true'>                       
                   <div class="row" *ngIf="showAccounts && showAdmin==true" style="padding-top:10px;padding-bottom:10px;">
-                    <div class="col-lg-4">   
+                    <div class="col-lg-8 col-sm-12">   
                       <div class="form-group">
-                        <h4 for="listOrganizations" style="float:left;width:20%!important;">Tenant</h4>                   
-                        <select class="form-control" id="listOrganizations" style="float:left;width:80%!important;">
+                        <label for="listOrganizations" style="float:left;line-height:30px;padding-right:10px!important;">Tenant</label>                   
+                        <select class="form-control" id="listOrganizations" style="float:left;width:50%!important;margin-bottom:20px;">
                           <option [attr.data-row]="orgId">{{orgName}}</option>                                                    
                           <option *ngFor="let opt of org_options" [attr.data-row]="opt[0]">{{opt[1]}}</option>                                                    
                         </select>               
                       </div>           
-                    </div>  
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4">
+                    </div>                      
+                    <div class="col-lg-4 col-sm-12">
                     <h4>Total Users - {{allUsers.length}}</h4> 
                     </div>                 
                   </div>  
                   <div class="row"><br></div>                
                   <div class="row" *ngIf='showAdmin==true'>
-                    <div class="col-lg-8 col-md-12">                                  
+
+                    <div class="col-lg-8 col-md-12" *ngIf="barChartLabels1.length<=10"> 
                       <canvas id="loginAttempts" baseChart
                       [datasets]="barChartData1"
                       [labels]="barChartLabels1"
@@ -114,7 +114,19 @@
                       (chartHover)="chartHovered($event)"
                       (chartClick)="chartClicked($event)"></canvas>
                     </div>                                                 
-                    <div class="col-lg-4 col-md-12">                       
+
+                    <div class="col-lg-12 col-md-12" *ngIf="barChartLabels1.length>10"> 
+                        <canvas id="loginAttempts" baseChart
+                        [datasets]="barChartData1"
+                        [labels]="barChartLabels1"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend1"                      
+                        [chartType]="'bar'"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+                    </div>                                                 
+
+                    <div class="col-lg-4 col-md-12 scrollable" *ngIf="barChartLabels1.length<=10">                       
                       <table class="table table-hover">
                         <thead>
                           <tr><th>User</th><th>Last Login</th></tr>
@@ -126,7 +138,21 @@
                           </tr>
                         </tbody>
                       </table>                      
-                    </div>                  
+                    </div>         
+                    
+                    <div class="col-lg-12 col-md-12" *ngIf="barChartLabels1.length>10" style="padding:0px 10px;">                       
+                        <table class="table table-hover">
+                          <thead>
+                            <tr><th>User</th><th>Last Login</th></tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let user of allUsers;let i = index; trackBy: customTrackBy">
+                              <td>{{user}}</td>
+                              <td>{{lastLogins[i]}}</td>
+                            </tr>
+                          </tbody>
+                        </table>                      
+                    </div>          
                   </div>     
           </div>
       </div>

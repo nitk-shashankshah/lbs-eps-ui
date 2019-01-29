@@ -514,13 +514,15 @@ export class SuperAdminComponent implements OnInit  {
     }
 
     this.spinner.show();
+    
     this.http.post('http://'+this.server+'/createGroup.php', JSON.stringify({"orgId":that.currentOrganization, "group": this.grps[this.currentIndex][i]}), {
       responseType: 'json'
     }).map(response => {
-      this.spinner.hide();
+      that.spinner.hide();
       if (response["success"]==1){
         this.logger.debug("super-admin.component.ts","CREATE GROUP SUCCESS",this.username as string,new Date().toUTCString());     
-        this.logger.log("CREATE","GROUP", new Date().toUTCString(),this.grps[this.currentIndex][i] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);    
+ 
+        this.logger.log("CREATE","GROUP", new Date().toUTCString(),that.grps[that.currentIndex][i] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);    
         that.viewGroups(that.currentOrganization,that.currentIndex);    
       }
       else{        

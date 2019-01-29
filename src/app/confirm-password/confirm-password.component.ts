@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment'; 
 import { LoggerService } from '../logger.service';
+import { FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import { UploadedFloorPlanService } from '../uploaded-floor-plan.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-password',
@@ -14,38 +16,51 @@ export class ConfirmPasswordComponent implements OnInit {
   public output="";
   public q="";  
   public username="";
+  public matched=true;
+  public success=false;
   public server = environment.server;
-  constructor(private http: HttpClient,private activatedRoute: ActivatedRoute,private uploadedService : UploadedFloorPlanService,private logger : LoggerService) {
+  validatingForm: FormGroup;
+
+  constructor(private http: HttpClient, private router: Router,private activatedRoute: ActivatedRoute,private uploadedService : UploadedFloorPlanService,private logger : LoggerService, private fb: FormBuilder) {
       this.activatedRoute.queryParams.subscribe(params => {
             this.q = params['q'];
             this.username = params['email'];
             console.log(this.q); // Print the parameter to the console. 
-        });
+      });
+      this.validatingForm = fb.group({
+        'password': [null,Validators.required],
+        'confirmPassword': [null,Validators.required]
+      });
   }
   
   onSubmit(form: any): void {
     var obj={};    
     obj["email"] =	this.username;
     obj["password"] =	form.password;
-    obj["confirmpassword"] =	form.confirmpassword;
-    obj["q"] = this.q;
+    obj["confirmpassword"] =	form.confirmPassword;
+    obj["q"] = ((this.q)?this.q:"");
     var that=this;
-    
-    if (obj["password"]=="")
-       alert("Please enter your password."); 
-       
-    if (obj["password"]==obj["confirmpassword"]){     
+          
+    if (obj["password"]==obj["confirmpassword"]){ 
+      this.matched=true;
 		  this.http.post('http://'+this.server+'/reset.php',JSON.stringify(obj), {
 			responseType: 'text'
 		  }).map(response => {
-      that.output="&nbsp;&nbsp;&nbsp;&nbsp;"+response +"<br><br>&nbsp;&nbsp;&nbsp; <a routerLink='/login'>Login again</a>";
-      that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","SUCCESS",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);           
+      that.output=response;
+      if (that.output.indexOf("success")>0){
+         that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","SUCCESS",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);
+         that.success=true;
+      }
+      else{
+         that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","FAIL",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);
+         that.success=false;
+      }
 		  }).subscribe(response => {
       console.log(response);
       });
     }
     else {
-      alert("Your passwords do not match.");
+      this.matched=false;
       that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","FAIL",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);     
     }
   }
@@ -54,6 +69,10 @@ export class ConfirmPasswordComponent implements OnInit {
     if (sessionStorage.getItem('username'))
       this.username = sessionStorage.getItem('username');
     
+    if (!this.uploadedService.getLoggedIn()) {
+       this.router.navigate(['/login']);  
+    }
+
     sessionStorage.removeItem('showAdmin');
     sessionStorage.removeItem('showLBS');
     sessionStorage.removeItem('showST');

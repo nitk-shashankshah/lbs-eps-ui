@@ -41,7 +41,7 @@ export class StConfigurationComponent implements OnInit {
   public group:String = ""; 
   public showLBS:boolean=false;
   public showRoles:boolean=false;
-  public configuredGroup:String="-1";
+  public configuredGroup:String="Select";
   public showAccounts:boolean=false;
   public showST:boolean=false;
   public showAdmin:boolean=false;
@@ -126,11 +126,14 @@ export class StConfigurationComponent implements OnInit {
       console.log(response);
     });
 
+    let jQueryInstance = this;
+
     $AB(document).ready(function(){      
       $AB('.alert-info').hide();
-      
+            
       $AB("#changeGrp").off('change').on('change',function(){
-        $AB('.alert-info').hide();        
+        $AB('.alert-info').hide();                
+        jQueryInstance.configuredGroup = $AB(this).find("option:selected").html();  
       });
 
       $AB("#logoutBtn a").off('mouseover').on('mouseover',function(){
@@ -234,8 +237,8 @@ export class StConfigurationComponent implements OnInit {
     this.displayBackDrop="none";
   }
   
-  setGroupName(event){
-    this.uploadedService.setGroup(this.configuredGroup);
+  setGroupName(event){    
+    this.uploadedService.setGroup(this.configuredGroup);    
     var that=this;    
     this.spinner.show();
     this.http.get('http://10.150.76.45:8080/hssImsiList?toggle=0&grp='+that.uploadedService.getGroup()).map((response)  => {

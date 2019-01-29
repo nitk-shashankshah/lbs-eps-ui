@@ -64,7 +64,7 @@
               <div class="panel-body">
               <h4>Tracing</h4>
               <hr>
-                  <select id="changeGrp" class="form-control" style="width:150px!important;float:left;" [(ngModel)]="configuredGroup"><option [ngValue]="-1" selected>Select Group</option><option *ngFor="let grp of grps"  [ngValue]="grp">{{grp}}</option></select>
+                  <select id="changeGrp" class="form-control" style="width:150px!important;float:left;"><option value="select" selected>Select</option><option *ngFor="let grp of grps"  [ngValue]="grp">{{grp}}</option></select>
                   <button type="submit" class="btn btn-default btn-primary" style="width:100px!important;float:left;margin-left:10px;" (click)="onChange($event)">Submit</button>
                   <div class="clearfix"></div>                                  
                 

@@ -331,7 +331,7 @@ export class UnauthorizedViewComponent implements OnInit {
     var that=this;    
     that.lastLogins=[];
     that.allUsers=[];
-
+    
     that.http.post('http://'+that.server+'/listUsers.php?org_id='+orgId,  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
@@ -345,19 +345,19 @@ export class UnauthorizedViewComponent implements OnInit {
         that.barChartLabels1.splice(0,that.barChartLabels1.length);
 
         for (var ind in response){
-          counter_dict[response[ind]["email_addr"]]=response[ind]["counter"];
-          last_activity_dict[response[ind]["email_addr"]]=response[ind]["last_activity"];
-          that.barChartLabels1.push(response[ind]["email_addr"]);
-          data.push(response[ind]["counter"]);
-          
-          that.allUsers.push(response[ind]["email_addr"]);
-          that.lastLogins.push(response[ind]["last_activity"]);
+          if (that.allUsers.indexOf(response[ind]["email_addr"])<0){
+            counter_dict[response[ind]["email_addr"]]=response[ind]["counter"];
+            last_activity_dict[response[ind]["email_addr"]]=response[ind]["last_activity"];
+            that.barChartLabels1.push(response[ind]["email_addr"]);
+            data.push(response[ind]["counter"]);          
+            that.allUsers.push(response[ind]["email_addr"]);
+            that.lastLogins.push(response[ind]["last_activity"]);
+          }
         }
 
         let clone = JSON.parse(JSON.stringify(that.barChartData1));
         clone[0].data = data;
-        that.barChartData1 = clone;         
-        
+        that.barChartData1 = clone;        
         
         for (var each in counter_dict){
             if (no_of_times.hasOwnProperty(counter_dict[each])){

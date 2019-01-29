@@ -12,26 +12,25 @@
 			<div class="panel panel-default">
 			<div class="panel-body">			
 			<h4 style="float:left;">Login</h4>
-            <hr style="clear:both;">
- 
-			<form [formGroup]="validatingForm" #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+            <hr style="clear:both;"> 
+			<form [formGroup]="validatingForm" #f="ngForm" autocomplete="off" (ngSubmit)="onSubmit(f.value)">
 				<div class="alert alert-danger" *ngIf="loginFailed">{{loginMsg}}</div>
-
+			
 				<mdb-error *ngIf="validatingForm.controls['email'].touched">									
 					<div class="alert alert-warning" *ngIf="validatingForm.controls['email'].errors?.email">Please provide a valid email.</div>
 					<div class="alert alert-warning" *ngIf="validatingForm.controls['email'].errors?.required">Please provide an email.</div>
-				</mdb-error>
+				</mdb-error>				
 
-				<mdb-error *ngIf="validatingForm.controls['pass'].touched">				
+				<mdb-error *ngIf="validatingForm.controls['pass'].touched">
 					<div class="alert alert-warning" *ngIf="validatingForm.controls['pass'].errors?.required">Please provide a password.</div>
 				</mdb-error>
 				
-				<div class="md-form" style="padding: 10px 0px;">
-					<input type="email" style="padding:20px 10px!important;" mdbInputDirective  id="emailId" class="form-control" data-error="" data-success="" formControlName="email">
+				<div class="md-form" style="padding:10px 0px;">
+					<input type="email"  mdbInputDirective  id="emailId" class="form-control" formControlName="email" placeholder="Email">
 				</div>
 				
-				<div class="md-form" style="padding: 10px 0px;">
-					<input style="padding:20px 10px!important;" mdbInputDirective  type="password" id="pwd" class="form-control" data-error="" data-success="" formControlName="pass">
+				<div class="md-form" style="padding:10px 0px;">
+					<input  mdbInputDirective  type="password" id="pwd" class="form-control" formControlName="pass" placeholder="Password">
 				</div>
 				
 				<mdb-success *ngIf="(!validatingForm.controls['email'].touched && !validatingForm.controls['pass'].touched) || (!validatingForm.controls['email'].errors?.email && !validatingForm.controls['email'].errors?.required && !validatingForm.controls['pass'].errors?.required);else elseBlock">
@@ -41,7 +40,7 @@
 				<ng-template #elseBlock>
 					<button class="btn btn-lg btn-primary btn-block" type="submit" disabled="true">Sign In</button>					
 				</ng-template>
-				
+
 				<a routerLink="/reset" style="line-height: 24px;float:right;margin-top:10px;">Forgot Password?</a>
 			</form>
 			</div>

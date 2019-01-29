@@ -47,7 +47,7 @@ export class SubscriberTracingComponent implements OnInit, AfterViewInit {
   public currentPageSize;
   public analysisIMSIs = [];
   public grps=[];
-  public configuredGroup:String="-1";
+  public configuredGroup:String="select";
   public models=[];
 
   public noDataFound=false;
@@ -122,6 +122,8 @@ export class SubscriberTracingComponent implements OnInit, AfterViewInit {
     });
 
 
+    let jQueryInstance = this;
+
     $AB(document).ready(function(){
       $AB(".well").hide();
       $AB("#configure_group").show();
@@ -143,6 +145,10 @@ export class SubscriberTracingComponent implements OnInit, AfterViewInit {
           $AB(".panel-body").css("padding-left","100px");                
           $AB(".sideMenu").slideToggle();              
         }
+      });
+            
+      $AB("#changeGrp").off('change').on('change',function(){
+          jQueryInstance.configuredGroup = $AB(this).find("option:selected").html();
       });
       
       $AB(document).click(function(event) {
@@ -256,7 +262,7 @@ export class SubscriberTracingComponent implements OnInit, AfterViewInit {
     this.isOperationSuccess=isSuccess;
     this.spinner.hide();
   }
-
+    
   onChange(event){
     var that=this;
     var state="";

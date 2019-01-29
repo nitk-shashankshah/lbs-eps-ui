@@ -33,17 +33,16 @@ export class UserLoginComponent implements OnInit {
   }
   
   onSubmit(form: any): void {
-    var that=this;      
-    
+    var that=this;    
     if (form.email==null || form.pass==null){
       that.loginMsg="Sorry, you have not provided the username or password!"
       that.loginFailed=true;   
     }
     else
-    { 
-      this.spinner.show();
+    {
+      that.spinner.show();    
 	    this.authService.login(form.email, form.pass).subscribe(auth => {
-        this.spinner.hide();
+        that.spinner.hide();        
 		    if(auth) {
           that.router.navigate(['/dashboard']);
           that.loginFailed=false;
