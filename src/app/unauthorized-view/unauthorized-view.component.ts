@@ -137,7 +137,7 @@ export class UnauthorizedViewComponent implements OnInit {
   public populateData():void {
     let that=this;
     that.org_options=[];
-    var url='http://'+that.server+'/AccountUsers.php';
+    var url='http://'+that.server+'/'+environment.rbacRoot+'/AccountUsers.php';
     
     var obj={};
     
@@ -164,7 +164,7 @@ export class UnauthorizedViewComponent implements OnInit {
     });
     
     if (this.showAccounts==true){      
-      that.http.post('http://'+that.server+'/listOrganizations.php',  JSON.stringify({}), {
+      that.http.post('http://'+that.server+'/'+environment.rbacRoot+'/listOrganizations.php',  JSON.stringify({}), {
         responseType: 'json'
       }).map(response => {
         var obj={};
@@ -234,7 +234,7 @@ export class UnauthorizedViewComponent implements OnInit {
     that.uploadedService.setAllowConf(false);
     this.spinner.show();
 
-    that.http.post('http://'+that.server+'/listUserPermissions.php?user_id='+that.uploadedService.getUser(),  JSON.stringify({}), {
+    that.http.post('http://'+that.server+'/'+environment.rbacRoot+'/listUserPermissions.php?user_id='+that.uploadedService.getUser(),  JSON.stringify({}), {
         responseType: 'json'
       }).map(response => {
           this.spinner.hide();
@@ -333,7 +333,7 @@ export class UnauthorizedViewComponent implements OnInit {
     that.lastLogins=[];
     that.allUsers=[];
     
-    that.http.post('http://'+that.server+'/listUsers.php?org_id='+orgId,  JSON.stringify({}), {
+    that.http.post('http://'+that.server+'/'+environment.rbacRoot+'/listUsers.php?org_id='+orgId,  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
         that.spinner.hide();

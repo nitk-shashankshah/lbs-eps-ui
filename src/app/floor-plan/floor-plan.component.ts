@@ -163,7 +163,7 @@ export class FloorPlanComponent implements OnInit {
         this.uploadedService.setFileContent(this.floor_plan);
         var that=this;
         that.fileName=that.fileName.split(".")[0];
-        this.http.post('http://'+this.server+'/floorPlan.php',  JSON.stringify({"dataURL": that.floor_plan,"name":that.fileName.toString(),"username":that.username}), {
+        this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/floorPlan.php',  JSON.stringify({"dataURL": that.floor_plan,"name":that.fileName.toString(),"username":that.username}), {
           responseType: 'text'
         }).map(res => {     
           console.log(res);  

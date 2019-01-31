@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   server: 'localhost',
   delimiter: '|',
-  level: 0
+  level: 0,
+  rbacRoot: ''
 };
 
 /*

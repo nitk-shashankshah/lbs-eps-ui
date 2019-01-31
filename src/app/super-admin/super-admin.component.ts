@@ -105,7 +105,7 @@ export class SuperAdminComponent implements OnInit  {
 
     this.logger.debug("super-admin.component.ts","LIST FEATURES",this.username as string,new Date().toUTCString());
 
-    this.http.post('http://'+this.server+'/listFeatures.php',  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listFeatures.php',  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
        this.logger.debug("super-admin.component.ts","LIST FEATURES:"+JSON.stringify(response),this.username as string,new Date().toUTCString());
@@ -142,7 +142,7 @@ export class SuperAdminComponent implements OnInit  {
     
     var that=this;
     this.spinner.show();
-    this.http.post('http://'+this.server+'/listOrganizations.php',  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listOrganizations.php',  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
       this.spinner.hide();
@@ -367,7 +367,7 @@ export class SuperAdminComponent implements OnInit  {
     that.grps[i]=[];
     that.beginGroupEdits=[];
     this.logger.info("super-admin.component.ts","VIEW GROUPS",this.username as string,new Date().toUTCString());
-    this.http.post('http://'+this.server+'/listGroups.php?org_id='+orgId,  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listGroups.php?org_id='+orgId,  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {                
         this.logger.debug("super-admin.component.ts","VIEW GROUPS:"+JSON.stringify(response),this.username as string,new Date().toUTCString());
@@ -445,7 +445,7 @@ export class SuperAdminComponent implements OnInit  {
       {
       this.spinner.show();     
       this.logger.debug("super-admin.component.ts","DELETE ORGANIZATION",this.username as string,new Date().toUTCString());     
-      this.http.post('http://'+this.server+'/deleteOrganization.php', JSON.stringify({"id":that.allOrgIds[count]}), {
+      this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/deleteOrganization.php', JSON.stringify({"id":that.allOrgIds[count]}), {
        responseType: 'json'
       }).map(response => {
        this.spinner.hide();
@@ -471,7 +471,7 @@ export class SuperAdminComponent implements OnInit  {
     var that=this;
     if (this.beginGroupEdits[i]==false){     
      this.spinner.show();
-     this.http.post('http://'+this.server+'/deleteGroup.php', JSON.stringify({"orgId":that.currentOrganization, "group":that.grps[this.currentIndex][i]}), {
+     this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/deleteGroup.php', JSON.stringify({"orgId":that.currentOrganization, "group":that.grps[this.currentIndex][i]}), {
       responseType: 'json'
      }).map(response => {
       this.spinner.hide();
@@ -515,7 +515,7 @@ export class SuperAdminComponent implements OnInit  {
 
     this.spinner.show();
     
-    this.http.post('http://'+this.server+'/createGroup.php', JSON.stringify({"orgId":that.currentOrganization, "group": this.grps[this.currentIndex][i]}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/createGroup.php', JSON.stringify({"orgId":that.currentOrganization, "group": this.grps[this.currentIndex][i]}), {
       responseType: 'json'
     }).map(response => {
       that.spinner.hide();
@@ -581,7 +581,7 @@ export class SuperAdminComponent implements OnInit  {
     var obj={};
     obj["email"] = adminId;
     this.spinner.show();
-	  this.http.post('http://'+this.server+'/super_reset.php',JSON.stringify(obj), {
+	  this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/super_reset.php',JSON.stringify(obj), {
 			responseType: 'json'
 	  }).map(response => {
       this.spinner.hide();           
@@ -664,7 +664,7 @@ export class SuperAdminComponent implements OnInit  {
 
     if (element["id"]=="") {
       this.spinner.show();           
-      this.http.post('http://'+that.server+'/checkUserExists.php', JSON.stringify({"user": adminName}), {
+      this.http.post('http://'+that.server+'/'+environment.rbacRoot+'/checkUserExists.php', JSON.stringify({"user": adminName}), {
         responseType: 'json'
         }).map(checkRes => {
           if (checkRes["exists"]==true){    
@@ -672,7 +672,7 @@ export class SuperAdminComponent implements OnInit  {
             this.logger.warn("super-admin.component.ts","CREATE USER WARNING - This user already exists",this.username as string,new Date().toUTCString());                  
           }
           else {
-      this.http.post('http://'+that.server+'/createOrganization.php', JSON.stringify({"name": org, "features":features}), {
+      this.http.post('http://'+that.server+'/'+environment.rbacRoot+'/createOrganization.php', JSON.stringify({"name": org, "features":features}), {
       responseType: 'json'
       }).map(response => {        
         if (response["success"]==1){           
@@ -680,18 +680,18 @@ export class SuperAdminComponent implements OnInit  {
           
           this.logger.debug("super-admin.component.ts","CREATE "+org+" SUCCESS",this.username as string,new Date().toUTCString());
           
-          that.http.post('http://'+that.server+'/createUserWithPermissions.php', JSON.stringify({"user": adminName , "emailId":adminName, "orgId":response["org_id"]}), {
+          that.http.post('http://'+that.server+'/'+environment.rbacRoot+'/createUserWithPermissions.php', JSON.stringify({"user": adminName , "emailId":adminName, "orgId":response["org_id"]}), {
             responseType: 'json'
           }).map(resp => {
              if (resp["success"]=="1"){
               that.currentOrganization=response["org_id"];
               this.logger.debug("super-admin.component.ts","CREATED USER:"+adminName+" SUCCESS",this.username as string,new Date().toUTCString());
-              that.http.post('http://'+that.server+'/updateAdmin.php', JSON.stringify({"orgId": response["org_id"], "admin": adminName}), {
+              that.http.post('http://'+that.server+'/'+environment.rbacRoot+'/updateAdmin.php', JSON.stringify({"orgId": response["org_id"], "admin": adminName}), {
               responseType: 'json'
               }).map(res => {                
                if (resp["success"]=="1"){
                  this.logger.debug("super-admin.component.ts","UPDATE ADMIN:"+adminName+" SUCCESS",this.username as string,new Date().toUTCString());                  
-                 this.http.post('http://'+this.server+'/createRole.php', JSON.stringify({"orgId":response["org_id"], "roleName": "ADMIN", "feature":features, "access": "READ/WRITE"}), {
+                 this.http.post('http://'+that.server+'/'+environment.rbacRoot+'/createRole.php', JSON.stringify({"orgId":response["org_id"], "roleName": "ADMIN", "feature":features, "access": "READ/WRITE"}), {
                   responseType: 'json'
                  }).map(output => {                        
                   if (output["success"]==1){ 
@@ -699,7 +699,7 @@ export class SuperAdminComponent implements OnInit  {
                   this.logger.debug("super-admin.component.ts","CREATED ROLE ADMIN",this.username as string,new Date().toUTCString());                  
                   obj["userId"]=resp["admin"];
                   obj["roleId"]=output["role_id"];                      
-                  this.http.post('http://'+this.server+'/updateUserRole.php', JSON.stringify(obj), {
+                  this.http.post('http://'+that.server+'/'+environment.rbacRoot+'/updateUserRole.php', JSON.stringify(obj), {
                     responseType: 'json'
                   }).map(op => {      
                     this.spinner.hide();        
@@ -733,7 +733,7 @@ export class SuperAdminComponent implements OnInit  {
                  var monFeatures=features.replace("ADMIN","");
                  monFeatures = monFeatures.substring(0,features.length-1);
                  this.spinner.show();
-                 this.http.post('http://'+this.server+'/createRole.php', JSON.stringify({"orgId":response["org_id"], "roleName": "MONITOR", "feature":monFeatures, "access": "READ ONLY"}), {
+                 this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/createRole.php', JSON.stringify({"orgId":response["org_id"], "roleName": "MONITOR", "feature":monFeatures, "access": "READ ONLY"}), {
                   responseType: 'json'
                  }).map(output => {
                   this.spinner.hide();      
@@ -784,13 +784,13 @@ export class SuperAdminComponent implements OnInit  {
         features='LBS,SUBSCRIBER TRACING,SUPER USER,ADMIN';
       this.spinner.show();
       this.logger.debug("super-admin.component.ts","UPDATE ORGANIZATION",this.username as string,new Date().toUTCString());                        
-      this.http.post('http://'+that.server+'/updateOrganization.php', JSON.stringify({"id":element["id"], "features":features}), {
+      this.http.post('http://'+that.server+'/'+environment.rbacRoot+'/updateOrganization.php', JSON.stringify({"id":element["id"], "features":features}), {
          responseType: 'json'
       }).map(response => {
         if (response["success"]==1){
             this.logger.log("UPDATE","TENANT",new Date().toUTCString(),this.allOrgs[this.currentIndex] as string,"SUCCESS",this.showAccounts,this.username as string,this.uploadedService.getRoleName() as string,"ADMIN > TENANTS",this.uploadedService.getOrgName() as string);
             this.logger.debug("super-admin.component.ts","UPDATE ORGANIZATION - SUCCESS",this.username as string,new Date().toUTCString());                        
-            that.http.post('http://'+that.server+'/updateAdmin.php', JSON.stringify({"orgId": element["id"], "admin":element["admin"]}), {
+            that.http.post('http://'+that.server+'/'+environment.rbacRoot+'/updateAdmin.php', JSON.stringify({"orgId": element["id"], "admin":element["admin"]}), {
                responseType: 'json'
             }).map(res => {
                this.spinner.hide();

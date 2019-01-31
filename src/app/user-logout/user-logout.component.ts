@@ -26,7 +26,7 @@ export class UserLogoutComponent implements OnInit {
 
   ngOnInit() {    
 
-    var url='http://'+this.server+'/logout.php';    
+    var url='http://'+this.server+'/'+environment.rbacRoot+'/logout.php';    
 
     this.http.post(url, null, {
       responseType: 'json'

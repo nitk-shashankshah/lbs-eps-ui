@@ -110,7 +110,7 @@ export class StConfigurationComponent implements OnInit {
     this.grps=[];
     this.configuredGroup = this.uploadedService.getGroup();
        
-    this.http.post('http://'+this.server+'/listGroups.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listGroups.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
         this.spinner.hide();      

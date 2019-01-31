@@ -94,7 +94,7 @@ export class AdminPanelComponent implements OnInit {
     
     this.logger.info("admin-panel.component.ts","LISTING ACCESS TYPES",this.username as string,new Date().toUTCString());  
    
-    this.http.post('http://'+this.server+'/listAccessTypes.php',  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listAccessTypes.php',  JSON.stringify({}), {
       responseType: 'text'
     }).map(response => {
       that.accessTypes=JSON.parse(response);
@@ -117,7 +117,7 @@ export class AdminPanelComponent implements OnInit {
     
     this.features=[];
     this.spinner.show();
-    this.http.post('http://'+this.server+'/listOrgPermissions.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listOrgPermissions.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
          this.spinner.hide();     
@@ -134,7 +134,7 @@ export class AdminPanelComponent implements OnInit {
     }).subscribe(response => {            
     });
 
-    this.fillRoles('http://'+this.server+'/listRoles.php?org_id='+this.uploadedService.getOrgId());
+    this.fillRoles('http://'+this.server+'/'+environment.rbacRoot+'/listRoles.php?org_id='+this.uploadedService.getOrgId());
     
     let jQueryInstance = this;
     $AB(document).ready(function(){
@@ -218,7 +218,7 @@ export class AdminPanelComponent implements OnInit {
         .then(res => {          
           for (var each in res){
             for (var k in res[each]){           
-              that.fillRoleDetails('http://'+that.server+'/getRoleDetails.php?orgId='+that.uploadedService.getOrgId()+'&roleId='+k,k,res[each][k]);
+              that.fillRoleDetails('http://'+that.server+'/'+environment.rbacRoot+'/getRoleDetails.php?orgId='+that.uploadedService.getOrgId()+'&roleId='+k,k,res[each][k]);
             }
           }
           resolve();          
@@ -284,7 +284,7 @@ export class AdminPanelComponent implements OnInit {
     this.logger.info("admin-panel.component.ts","DELETE ROLE:"+element.name,this.username as string,new Date().toUTCString());   
     if (element.id!=""){
     this.spinner.show();    
-    this.http.post('http://'+this.server+'/deleteRole.php', JSON.stringify({"orgId":this.uploadedService.getOrgId(), "role": element.id}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/deleteRole.php', JSON.stringify({"orgId":this.uploadedService.getOrgId(), "role": element.id}), {
       responseType: 'json'
     }).map(response => {
       this.spinner.hide();
@@ -350,7 +350,7 @@ export class AdminPanelComponent implements OnInit {
     {
     this.spinner.show();
     this.logger.debug("admin-panel.component.ts","CREATE ROLE",this.username as string,new Date().toUTCString());       
-    this.http.post('http://'+this.server+'/createRole.php', JSON.stringify({"orgId":this.uploadedService.getOrgId(), "roleName": ele["name"], "feature":ele["selectedOptions"].join(), "access": ele["permission"]}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/createRole.php', JSON.stringify({"orgId":this.uploadedService.getOrgId(), "roleName": ele["name"], "feature":ele["selectedOptions"].join(), "access": ele["permission"]}), {
       responseType: 'json'
     }).map(response => {
       this.spinner.hide();
@@ -374,7 +374,7 @@ export class AdminPanelComponent implements OnInit {
     else
     {
     this.spinner.show();
-    this.http.post('http://'+this.server+'/updateRole.php', JSON.stringify({"roleName": ele["name"],"roleId":ele["id"]}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/updateRole.php', JSON.stringify({"roleName": ele["name"],"roleId":ele["id"]}), {
       responseType: 'json'
     }).map(response => {
         this.spinner.hide();
@@ -395,7 +395,7 @@ export class AdminPanelComponent implements OnInit {
     if (ele["selectedOptions"].length>0){
       this.spinner.show();    
       this.logger.info("admin-panel.component.ts","SAVE ROLE",this.username as string,new Date().toUTCString());            
-      this.http.post('http://'+this.server+'/saveRole.php', JSON.stringify({"orgId":that.uploadedService.getOrgId(), "role_id": ele["id"], "features": that.features.join(), "selectedfeatures":ele["selectedOptions"].join(), "access": ele["permission"]}), {
+      this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/saveRole.php', JSON.stringify({"orgId":that.uploadedService.getOrgId(), "role_id": ele["id"], "features": that.features.join(), "selectedfeatures":ele["selectedOptions"].join(), "access": ele["permission"]}), {
       responseType: 'json'
       }).map(response => {
         this.spinner.hide();

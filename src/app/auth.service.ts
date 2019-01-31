@@ -26,7 +26,7 @@ export class AuthService {
 		obj["email"]=e;
 		obj["password"]=p;
 		var that=this;
-		return this.http.post('http://'+that.server+'/auth.php',JSON.stringify(obj), {
+		return this.http.post('http://'+that.server+'/'+environment.rbacRoot+'/auth.php',JSON.stringify(obj), {
 			responseType: 'json'
 		}).map(response => {
 			    if (response["auth"] == "1") {

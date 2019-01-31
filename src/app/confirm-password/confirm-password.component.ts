@@ -43,7 +43,7 @@ export class ConfirmPasswordComponent implements OnInit {
           
     if (obj["password"]==obj["confirmpassword"]){ 
       this.matched=true;
-		  this.http.post('http://'+this.server+'/reset.php',JSON.stringify(obj), {
+		  this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/reset.php',JSON.stringify(obj), {
 			responseType: 'text'
 		  }).map(response => {      
       that.output=response;

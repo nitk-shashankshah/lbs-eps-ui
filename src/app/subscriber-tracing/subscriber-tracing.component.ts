@@ -110,7 +110,7 @@ export class SubscriberTracingComponent implements OnInit, AfterViewInit {
  
     this.grps=[];        
 
-    this.http.post('http://'+this.server+'/listGroups.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listGroups.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {       
         this.logger.debug("subscriber-tracing.component","LIST GROUPS UCCESS",this.username as string,new Date().toUTCString());            

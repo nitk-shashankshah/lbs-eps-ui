@@ -26,7 +26,7 @@ export class LoggerService {
     obj["pageDetail"] = filename;  
     obj["type"] = "DEBUG";  
     obj["delimiter"] = environment.delimiter;
-    this.http.post('http://'+this.server+'/debug.php', JSON.stringify(obj), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/debug.php', JSON.stringify(obj), {
       responseType: 'text'
     }).map(response => {      
 
@@ -45,7 +45,7 @@ export class LoggerService {
     obj["type"] = "INFO";  
     obj["delimiter"] = environment.delimiter;
 
-    this.http.post('http://'+this.server+'/debug.php', JSON.stringify(obj), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/debug.php', JSON.stringify(obj), {
       responseType: 'text'
     }).map(response => {      
 
@@ -64,7 +64,7 @@ export class LoggerService {
     obj["type"] = "WARNING";  
     obj["delimiter"] = environment.delimiter;
 
-    this.http.post('http://'+this.server+'/debug.php', JSON.stringify(obj), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/debug.php', JSON.stringify(obj), {
       responseType: 'text'
     }).map(response => {      
 
@@ -83,7 +83,7 @@ export class LoggerService {
     obj["type"] = "ERROR";  
     obj["delimiter"] = environment.delimiter;
 
-    this.http.post('http://'+this.server+'/debug.php', JSON.stringify(obj), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/debug.php', JSON.stringify(obj), {
       responseType: 'text'
     }).map(response => {      
 
@@ -111,7 +111,7 @@ export class LoggerService {
     obj["orgName"] = orgName;
     obj["delimiter"] = environment.delimiter;
 
-    this.http.post('http://'+this.server+'/logging.php', JSON.stringify(obj), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/logging.php', JSON.stringify(obj), {
       responseType: 'text'
     }).map(response => {      
 

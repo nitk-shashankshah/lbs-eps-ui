@@ -41,7 +41,7 @@ export class ResetPasswordComponent implements OnInit {
 
     this.logger.debug("reset-password.component.ts","RESET "+form.email+" PASSWORD",form.email as string,new Date().toUTCString());   
     
-  	this.http.post('http://'+this.server+'/change.php',JSON.stringify(obj), {
+  	this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/change.php',JSON.stringify(obj), {
 		   responseType: 'text'
   	}).map(response => {
         this.spinner.hide();        

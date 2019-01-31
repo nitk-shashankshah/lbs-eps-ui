@@ -43,7 +43,7 @@ export class DisplayDevicesComponent implements OnInit {
     this.showST =  JSON.parse(this.uploadedService.getST());
     
     var that=this;
-    this.http.post('http://'+this.server+'/listAllFloorPlans.php', JSON.stringify({"username":this.username}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listAllFloorPlans.php', JSON.stringify({"username":this.username}), {
     responseType: 'json'
     }).map(result => {     
        //var result=JSON.parse(res.toString());

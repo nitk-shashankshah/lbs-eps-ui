@@ -90,7 +90,7 @@ export class RolesPanelComponent implements OnInit {
     this.logger.info("roles-panel.component.ts","LIST ROLES",this.username as string,new Date().toUTCString());            
 
     this.spinner.show();    
-    this.http.post('http://'+this.server+'/listRoles.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
+    this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listRoles.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
       responseType: 'json'
     }).map(response => {
       var roleDict={};     
@@ -107,7 +107,7 @@ export class RolesPanelComponent implements OnInit {
         }
       }            
 
-      that.http.post('http://'+this.server+'/listUsers.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
+      that.http.post('http://'+this.server+'/'+environment.rbacRoot+'/listUsers.php?org_id='+this.uploadedService.getOrgId(),  JSON.stringify({}), {
         responseType: 'json'
       }).map(response => {
         this.spinner.hide(); 
@@ -276,7 +276,7 @@ export class RolesPanelComponent implements OnInit {
     var obj={};  
     this.free=true;
     for (var j in this.ELEMENT_DATA[i]["selectedItems"]){
-      this.search('http://'+this.server+'/getRoleDetails.php?orgId='+this.uploadedService.getOrgId()+'&roleId='+this.ELEMENT_DATA[i]["selectedItems"][j]["id"],dict,obj,i,j);
+      this.search('http://'+this.server+'/'+environment.rbacRoot+'/getRoleDetails.php?orgId='+this.uploadedService.getOrgId()+'&roleId='+this.ELEMENT_DATA[i]["selectedItems"][j]["id"],dict,obj,i,j);
     }
   }
 
@@ -289,7 +289,7 @@ export class RolesPanelComponent implements OnInit {
     var obj={};  
     this.free=true;        
     for (var j in this.ELEMENT_DATA[i]["selectedItems"]){
-      this.search('http://'+this.server+'/getRoleDetails.php?orgId='+this.uploadedService.getOrgId()+'&roleId='+this.ELEMENT_DATA[i]["selectedItems"][j]["id"],dict,obj,i,j);
+      this.search('http://'+this.server+'/'+environment.rbacRoot+'/getRoleDetails.php?orgId='+this.uploadedService.getOrgId()+'&roleId='+this.ELEMENT_DATA[i]["selectedItems"][j]["id"],dict,obj,i,j);
     }    
   }
 
@@ -302,7 +302,7 @@ export class RolesPanelComponent implements OnInit {
     var obj={};  
     this.free=true;        
     for (var j in this.ELEMENT_DATA[i]["selectedItems"]){    
-      this.search('http://'+this.server+'/getRoleDetails.php?orgId='+this.uploadedService.getOrgId()+'&roleId='+this.ELEMENT_DATA[i]["selectedItems"][j]["id"],dict,obj,i,j);
+      this.search('http://'+this.server+'/'+environment.rbacRoot+'/getRoleDetails.php?orgId='+this.uploadedService.getOrgId()+'&roleId='+this.ELEMENT_DATA[i]["selectedItems"][j]["id"],dict,obj,i,j);
     }
   }
 
@@ -331,7 +331,7 @@ export class RolesPanelComponent implements OnInit {
         if (that.free==true){
         if (ele["id"]==''){
            this.spinner.show(); 
-           this.http.post('http://'+this.server+'/createUserWithPermissions.php', JSON.stringify({"user": ele["email"].split("@")[0], "emailId":ele["email"], "orgId":that.uploadedService.getOrgId()}), {
+           this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/createUserWithPermissions.php', JSON.stringify({"user": ele["email"].split("@")[0], "emailId":ele["email"], "orgId":that.uploadedService.getOrgId()}), {
              responseType: 'json'
            }).map(response => { 
             if (response["success"]=="1") 
@@ -340,7 +340,7 @@ export class RolesPanelComponent implements OnInit {
             this.logger.log("CREATE","USER", new Date().toUTCString(),ele["email"] as string,"SUCCESS",this.showAccounts,this.username as string,that.uploadedService.getRoleName() as string,"ADMIN > USERS",this.uploadedService.getOrgName() as string);
             obj["userId"]=response["admin"];
             obj["roleId"]= ele["selectedOptions"].join();            
-            this.http.post('http://'+this.server+'/updateUserRole.php', JSON.stringify(obj), {
+            this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/updateUserRole.php', JSON.stringify(obj), {
               responseType: 'json'
             }).map(resp => {         
               this.spinner.hide();                        
@@ -371,7 +371,7 @@ export class RolesPanelComponent implements OnInit {
           obj["userId"]=ele["id"];                           
           obj["roleId"]= ele["selectedOptions"].join();
           this.spinner.show();                        
-          this.http.post('http://'+this.server+'/updateUserRole.php', JSON.stringify(obj), {
+          this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/updateUserRole.php', JSON.stringify(obj), {
             responseType: 'json'
           }).map(resp => {
               that.beginEdits[i]=false; 
@@ -379,7 +379,7 @@ export class RolesPanelComponent implements OnInit {
               var temp={};
               temp["userId"]=ele["id"];
               temp["emailId"]=ele["email"];       
-              this.http.post('http://'+this.server+'/updateUserEmail.php', JSON.stringify(temp), {
+              this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/updateUserEmail.php', JSON.stringify(temp), {
                 responseType: 'json'
               }).map(op => {
                 this.spinner.hide();                    
@@ -459,7 +459,7 @@ export class RolesPanelComponent implements OnInit {
     var target = event.target || event.srcElement || event.currentTarget;    
     if (this.ELEMENT_DATA[i]["id"]!=''){
       this.spinner.show();
-      this.http.post('http://'+this.server+'/deleteUser.php',  JSON.stringify({"user": this.ELEMENT_DATA[i]["id"]}), {
+      this.http.post('http://'+this.server+'/'+environment.rbacRoot+'/deleteUser.php',  JSON.stringify({"user": this.ELEMENT_DATA[i]["id"]}), {
         responseType: 'json'
       }).map(resp => {
         this.spinner.hide();
