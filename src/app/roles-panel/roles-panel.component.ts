@@ -203,11 +203,12 @@ export class RolesPanelComponent implements OnInit {
 
       $AB('a').on('click', (e) => {
         e.preventDefault();        
-        if (jQueryInstance.checkLink==false){           
-          jQueryInstance.openModal(e.target.getAttribute('data-link')||e.target.parentNode.getAttribute('data-link'));
+        if (!$AB(e.target).hasClass('hamburger') && !$AB(e.target).hasClass('glyphicon-menu-hamburger') && !$AB(e.target).hasClass('test')) {
+          if (jQueryInstance.checkLink==false){
+            jQueryInstance.openModal(e.target.getAttribute('data-link')||e.target.parentNode.getAttribute('data-link'));
+          }        
         }
       });
-
       
       $AB('.dropdown-submenu a.test').on("click", function(e){
         $AB("a.test").css("color","#888888");            

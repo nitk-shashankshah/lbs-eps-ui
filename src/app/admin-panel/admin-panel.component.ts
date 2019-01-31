@@ -167,7 +167,7 @@ export class AdminPanelComponent implements OnInit {
 
       $AB('a').on('click', (e) => {
         e.preventDefault();
-        if (!$AB(e.target).hasClass('hamburger')) {
+        if (!$AB(e.target).hasClass('hamburger') && !$AB(e.target).hasClass('glyphicon-menu-hamburger') && !$AB(e.target).hasClass('test')) {
           if (jQueryInstance.checkLink==false){           
             jQueryInstance.openModal(e.target.getAttribute('data-link')||e.target.parentNode.getAttribute('data-link'));
           }
@@ -428,8 +428,8 @@ export class AdminPanelComponent implements OnInit {
       element["id"]='';
       element["name"]='';
       element["beginEdits"]=true;      
-      element["selectedOptions"]=["LBS"];
-      element["selectedItems"]=[{"id":"LBS","itemName":"LBS"}];
+      element["selectedOptions"]=[];
+      element["selectedItems"]=[];
       element["permission"]="READ ONLY";
       this.selectedPermission.unshift("READ ONLY");
       this.beginEdits.unshift(true);

@@ -45,7 +45,7 @@ export class ConfirmPasswordComponent implements OnInit {
       this.matched=true;
 		  this.http.post('http://'+this.server+'/reset.php',JSON.stringify(obj), {
 			responseType: 'text'
-		  }).map(response => {
+		  }).map(response => {      
       that.output=response;
       if (that.output.indexOf("success")>0){
          that.logger.log("RESET PASSWORD","CHANGE PASSWORD", new Date().toUTCString(),"#####","SUCCESS",JSON.parse(this.uploadedService.getAccount()),this.username as string,that.uploadedService.getRoleName() as string,"LOGIN > CHANGE PASSWORD",this.uploadedService.getOrgName() as string);

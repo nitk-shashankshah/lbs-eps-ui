@@ -207,14 +207,16 @@
     height: 45px;
     background: #fb0000;
     box-sizing: border-box;
-    z-index: 100;    
-    width:100px;
-    margin:16px auto;
-    text-align: center;    
+    z-index: 100;
+    width: 100px;
+    margin: 0px auto;
+    text-align: center;
     position: -webkit-sticky;
     position: sticky;
-    display: none;
+    margin-top:20px;
+    display:none;
   }
+
   .logout a{
   text-decoration: none;
   display:block;

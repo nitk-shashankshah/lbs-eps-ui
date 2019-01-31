@@ -216,7 +216,8 @@ export class UnauthorizedViewComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     
-    this.lastLogin = this.uploadedService.getLastLogin().toString();
+    if (this.uploadedService.getLastLogin())
+      this.lastLogin = this.uploadedService.getLastLogin().toString();
 
     this.totalLogins = this.uploadedService.getTotalLogins();
     
@@ -231,7 +232,7 @@ export class UnauthorizedViewComponent implements OnInit {
     that.uploadedService.setShowST(false);
     that.uploadedService.setShowAccounts(false);
     that.uploadedService.setAllowConf(false);
-    this.spinner.show();    
+    this.spinner.show();
 
     that.http.post('http://'+that.server+'/listUserPermissions.php?user_id='+that.uploadedService.getUser(),  JSON.stringify({}), {
         responseType: 'json'

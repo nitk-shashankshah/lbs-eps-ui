@@ -44,8 +44,7 @@
                     <li><a routerLink="/tracing" linkAttr="tracing"><span class="glyphicon glyphicon-phone"></span> Trace Results</a></li>                            
                   </ul>
                 </li>          
-              </ul>
-           
+              </ul>           
           </li>
         <li *ngIf='showAdmin==true'>
           <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-weight: bold;color: #a0a0a0;">          
@@ -54,8 +53,7 @@
             <li class="dropdown-submenu" *ngIf='showAdmin==true'><a routerLink="/roles" linkAttr="roles"><span class="glyphicon glyphicon-education"></span><br>Roles</a></li>
             <li class="dropdown-submenu" *ngIf='showAdmin==true'><a  routerLink="/users" linkAttr="users"><span class="glyphicon glyphicon-user"></span><br>Users</a></li>
             <li class="dropdown-submenu" *ngIf='showAccounts==true && showAdmin==true'><a  routerLink="/super" linkAttr="super"><span class="glyphicon glyphicon-king"></span><br>Tenants</a></li>
-          </ul>
-        
+          </ul>        
         </li>
         </ul>     
       <div class="panel-group">
@@ -166,7 +164,6 @@
       </div>
   </div>
   </div>
-
 
   <div class="backdrop" [ngStyle]="{'display':displayBackDrop}"></div>
   

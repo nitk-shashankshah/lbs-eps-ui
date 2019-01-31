@@ -243,8 +243,8 @@ export class SuperAdminComponent implements OnInit  {
       });     
       
       $AB('a').on('click', (e) => {
-        e.preventDefault();        
-        if (!$AB(e.target).hasClass('hamburger')) {
+        e.preventDefault();                        
+        if (!$AB(e.target).hasClass('hamburger') && !$AB(e.target).hasClass('glyphicon-menu-hamburger') && !$AB(e.target).hasClass('test')) {
           if (jQueryInstance.checkLink==false){           
              jQueryInstance.openModal(e.target.getAttribute('data-link')||e.target.parentNode.getAttribute('data-link'));
           }
